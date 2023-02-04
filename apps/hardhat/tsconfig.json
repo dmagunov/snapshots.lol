@@ -1,0 +1,6 @@
+{
+  "extends": "../../packages/tsconfig/hardhat.json",
+  "include": ["./scripts", "./deploy", "./test", "./typechain/**/*"],
+  "exclude": ["node_modules", "cache", "artifacts"],
+  "files": ["./hardhat.config.ts"]
+}

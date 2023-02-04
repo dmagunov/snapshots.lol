@@ -1,0 +1,17 @@
+{
+  "extends": "../../packages/tsconfig/app.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "./types/styled.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json"
+  ],
+  "exclude": ["node_modules", ".next", "out"]
+}

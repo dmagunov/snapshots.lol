@@ -1,0 +1,22 @@
+{
+  "name": "@thenftsnapshot/monorepo",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "app:dev": "pnpm -F \"app\" dev"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+      }
+    }
+  },
+  "devDependencies": {
+    "turbo": "^1.5.5"
+  }
+}

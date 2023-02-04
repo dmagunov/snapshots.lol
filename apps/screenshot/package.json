@@ -1,0 +1,25 @@
+{
+  "name": "@thenftsnapshot/screenshot",
+  "private": true,
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "app/*"
+  ],
+  "scripts": {
+    "dev": "docker build -q -t screenshot-dev . && docker run -p 9000:8080 --add-host=thenftsnapshot:10.0.0.84 screenshot-dev"
+  },
+  "dependencies": {
+    "chrome-aws-lambda": "10.1.0",
+    "puppeteer-core": "^10.1.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "puppeteer-core"
+      ]
+    }
+  }
+}

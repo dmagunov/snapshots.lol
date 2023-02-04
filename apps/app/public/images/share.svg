@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 63 63"  xml:space="preserve">
+<style type="text/css">
+	.stroke {fill:none;stroke:#000000;stroke-width:2.6154;}
+	.fill {fill:#000000;stroke:none;}
+</style>
+<circle cx="21.8" cy="31.7" r="5.2" class="fill"/>
+<circle cx="40.2" cy="19.2" r="5.2" class="fill"/>
+<circle cx="40.2" cy="42.8" r="5.2" class="fill"/>
+<path class="stroke" d="M40.2,18.9L21.8,31.7l18.3,11.8"/>
+</svg>
