@@ -35,5 +35,6 @@ module.exports = withTM(
 
       return config;
     },
+    pageExtensions: ["page.tsx", "page.ts"],
   })
 );
