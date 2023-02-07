@@ -2,18 +2,17 @@ import type { Snapshot } from "types";
 
 import Head from "next/head";
 
-import { SCREENSHOT_FILE_NAME } from "lib/api";
+import API from "lib/api";
 
 const DESCRIPTION = "Click to View Snapshot";
 const WEBSITE_NAME = "The NFT Snapshot";
-const NEXT_PUBLIC_AWS_S3_BUCKET_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL!;
 
 type SnapshotPageMetaProps = {
   snapshot: Snapshot;
 };
 
 export default function SnapshotPageMeta({ snapshot }: SnapshotPageMetaProps) {
-  const snapshotImageUrl = `${NEXT_PUBLIC_AWS_S3_BUCKET_URL}/${snapshot.id}/${SCREENSHOT_FILE_NAME}`;
+  const snapshotImageUrl = API.getSnapshotScreenshotUrl(snapshot.id);
 
   return (
     <Head>

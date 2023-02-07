@@ -26,14 +26,11 @@ const AWS_S3_BUCKET_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL!;
 const SCREENSHOT_API_URL = process.env.SCREENSHOT_API_URL!;
 const NEXT_PUBLIC_HOST = process.env.NEXT_PUBLIC_HOST!;
 
-export const CACHE_FOLDER = "cache";
-export const PREVIEW_FOLDER = "preview";
-export const META_FILE_NAME = "meta.json";
-export const SNAPSHOT_FILE_NAME = "snapshot.json";
-export const SCREENSHOT_FILE_NAME = "image.png";
-
-// wrapper for api
-// Do I need to use a static class here?
+const CACHE_FOLDER = "cache";
+const PREVIEW_FOLDER = "preview";
+const META_FILE_NAME = "meta.json";
+const SNAPSHOT_FILE_NAME = "snapshot.json";
+const SCREENSHOT_FILE_NAME = "image.png";
 
 export default class API {
   // static dev: boolean = process.env.NODE_ENV === "development";
@@ -76,12 +73,20 @@ export default class API {
     return S3.getObjectUrl(key);
   }
 
+  static getSnapshotScreenshotUrl(snapshotId: string): string {
+    return API.dev
+      ? LocalFolder.getSnapshotScreenshotUrl(snapshotId)
+      : S3.getObjectUrl(
+          `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
+        );
+  }
+
   static async getSnapshotScreenshot(
     snapshotId: string
   ): Promise<ReadableStream<Uint8Array> | null> {
     let url = API.dev
-      ? await LocalFolder.getSnapshotScreenshotUrl(snapshotId)
-      : await S3.getObjectUrl(
+      ? LocalFolder.getSnapshotScreenshotUrl(snapshotId)
+      : S3.getObjectUrl(
           `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
         );
 
