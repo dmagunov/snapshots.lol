@@ -39,7 +39,7 @@ export default async function handler(
     let snapshotMetaResponse = await fetch(snapshotMetaUrl);
     let snapshotMeta = await snapshotMetaResponse.text();
 
-    const ajv = new Ajv();
+    const ajv = new Ajv({ strict: false });
     const validate = ajv.compile(META_JSON_SCHEMA);
 
     if (!validate(JSON.parse(snapshotMeta))) {
@@ -57,6 +57,7 @@ export default async function handler(
       success: true,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error });
   }
 }
