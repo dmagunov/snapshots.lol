@@ -93,7 +93,7 @@ export default function MintSnapshot({ snapshot, onClose }: MintSnapshotProps) {
     <>
       <BoardLoader/>
       <p>
-        Minting token ... Can take a while ...
+        Minting token ... Can take a while ... <b>Do not close this window!</b>
       </p>
     </>
   )
