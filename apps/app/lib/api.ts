@@ -1,8 +1,10 @@
 import {
   S3Client,
   ListObjectsCommand,
+  GetObjectCommand,
   PutObjectCommand,
   ListObjectsOutput,
+  PutObjectOutput,
 } from "@aws-sdk/client-s3";
 import fsSync, { promises as fs } from "fs";
 import path from "path";
@@ -24,15 +26,18 @@ const AWS_S3_BUCKET_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL!;
 const SCREENSHOT_API_URL = process.env.SCREENSHOT_API_URL!;
 const NEXT_PUBLIC_HOST = process.env.NEXT_PUBLIC_HOST!;
 
-const META_FILE_NAME = "meta.json";
-const SNAPSHOT_FILE_NAME = "snapshot.json";
+export const CACHE_FOLDER = "cache";
+export const PREVIEW_FOLDER = "preview";
+export const META_FILE_NAME = "meta.json";
+export const SNAPSHOT_FILE_NAME = "snapshot.json";
 export const SCREENSHOT_FILE_NAME = "image.png";
 
 // wrapper for api
 // Do I need to use a static class here?
 
 export default class API {
-  static dev: boolean = process.env.NODE_ENV === "development";
+  // static dev: boolean = process.env.NODE_ENV === "development";
+  static dev: boolean = false;
 
   static async takeSnapshotScreenshot(url: string): Promise<Blob> {
     let response = await fetch(SCREENSHOT_API_URL, {
@@ -61,9 +66,14 @@ export default class API {
   ): Promise<string> {
     let blob = await API.takeSnapshotScreenshot(snapshotUrl);
 
-    return API.dev
-      ? await LocalFolder.saveSnapshotScreenshot(snapshotId, blob)
-      : await S3.saveSnapshotScreensot(snapshotId, blob);
+    if (API.dev) {
+      return await LocalFolder.saveSnapshotScreenshot(snapshotId, blob);
+    }
+
+    let data = await blob.arrayBuffer();
+    let key = `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
+    await S3.saveObject(key, arrayBufferToBuffer(data));
+    return S3.getObjectUrl(key);
   }
 
   static async getSnapshotScreenshot(
@@ -71,7 +81,9 @@ export default class API {
   ): Promise<ReadableStream<Uint8Array> | null> {
     let url = API.dev
       ? await LocalFolder.getSnapshotScreenshotUrl(snapshotId)
-      : await S3.getSnapshotScreenshotUrl(snapshotId);
+      : await S3.getObjectUrl(
+          `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
+        );
 
     let response = await fetch(url);
     return response.body;
@@ -81,31 +93,46 @@ export default class API {
     snapshotId: string,
     meta: string
   ): Promise<string> {
-    return API.dev
-      ? await LocalFolder.saveSnapshotMeta(snapshotId, meta)
-      : await S3.saveSnapshotMeta(snapshotId, meta);
+    if (API.dev) {
+      return await LocalFolder.saveSnapshotMeta(snapshotId, meta);
+    }
+    let key = `${CACHE_FOLDER}/${snapshotId}/${META_FILE_NAME}`;
+    await S3.saveObject(key, meta);
+    return S3.getObjectUrl(key);
   }
 
   static async saveSnapshot(snapshotId: string, meta: string): Promise<string> {
-    return API.dev
-      ? await LocalFolder.saveSnapshotMeta(snapshotId, meta, SNAPSHOT_FILE_NAME)
-      : await S3.saveSnapshotMeta(snapshotId, meta, SNAPSHOT_FILE_NAME);
+    if (API.dev) {
+      return await LocalFolder.saveSnapshotMeta(
+        snapshotId,
+        meta,
+        SNAPSHOT_FILE_NAME
+      );
+    }
+
+    let key = `${PREVIEW_FOLDER}/${snapshotId}/${SNAPSHOT_FILE_NAME}`;
+    await S3.saveObject(key, meta);
+    return S3.getObjectUrl(key);
   }
 
   static async getSnapshots(): Promise<(string | undefined)[]> {
-    return API.dev ? await LocalFolder.getSnapshots() : await S3.getSnapshots();
+    return API.dev
+      ? await LocalFolder.getSnapshots()
+      : await S3.listObjects(`${CACHE_FOLDER}/`);
   }
 
   static async getSnapshotMeta(snapshotId: string): Promise<JSON> {
     return API.dev
       ? await LocalFolder.getSnapshotMeta(snapshotId)
-      : await S3.getSnapshotMeta(snapshotId);
+      : await S3.getObject(`${CACHE_FOLDER}/${snapshotId}/${META_FILE_NAME}`);
   }
 
   static async getSnapshot(snapshotId: string): Promise<JSON> {
     return API.dev
       ? await LocalFolder.getSnapshotMeta(snapshotId, SNAPSHOT_FILE_NAME)
-      : await S3.getSnapshotMeta(snapshotId, SNAPSHOT_FILE_NAME);
+      : await S3.getObject(
+          `${PREVIEW_FOLDER}/${snapshotId}/${SNAPSHOT_FILE_NAME}`
+        );
   }
 }
 
@@ -190,77 +217,62 @@ class S3 {
     },
   });
 
-  static async saveSnapshotMeta(
-    snapshotId: string,
-    meta: string,
-    fileName: string = META_FILE_NAME
-  ): Promise<string> {
+  static async saveObject(key: string, data: any): Promise<PutObjectOutput> {
     const command = new PutObjectCommand({
       Bucket: AWS_S3_BUCKET_NAME,
-      Key: `${snapshotId}/${fileName}`,
-      Body: meta,
-    });
-
-    await S3.client.send(command);
-    return `${AWS_S3_BUCKET_URL}/${snapshotId}/${fileName}`;
-  }
-
-  static async saveSnapshotScreensot(
-    snapshotId: string,
-    blob: Blob
-  ): Promise<string> {
-    let data = await blob.arrayBuffer();
-    const command = new PutObjectCommand({
-      Bucket: AWS_S3_BUCKET_NAME,
-      Key: `${snapshotId}/${SCREENSHOT_FILE_NAME}`,
-      Body: arrayBufferToBuffer(data),
+      Key: key,
+      Body: data,
     });
 
     try {
-      await S3.client.send(command);
-      return `${AWS_S3_BUCKET_URL}/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
+      return await S3.client.send(command);
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  static getSnapshotScreenshotUrl(snapshotId: string): string {
-    return `${AWS_S3_BUCKET_URL}/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
+  static getObjectUrl(key: string): string {
+    return `${AWS_S3_BUCKET_URL}/${key}`;
   }
 
-  static async getSnapshots(): Promise<(string | undefined)[]> {
+  static async listObjects(
+    prefix: string = ""
+  ): Promise<(string | undefined)[]> {
     const command = new ListObjectsCommand({
       Bucket: AWS_S3_BUCKET_NAME,
       Delimiter: "/",
-      Prefix: "",
+      Prefix: prefix,
     });
 
     let response: ListObjectsOutput = await S3.client.send(command);
 
     if (response.CommonPrefixes) {
-      return response.CommonPrefixes.map((obj) => obj.Prefix?.replace("/", ""));
+      return response.CommonPrefixes.map((obj) =>
+        obj.Prefix?.replace(/(^.*?)\/(.*?)\//, "$2")
+      );
     }
 
     return [];
   }
 
-  static async getSnapshotMeta(
-    snapshotId: string,
-    fileName: string = META_FILE_NAME
-  ): Promise<JSON | null> {
-    const fileUrl = `${AWS_S3_BUCKET_URL}/${snapshotId}/${fileName}`;
+  static async getObject(key: string): Promise<JSON | null> {
+    const command = new GetObjectCommand({
+      Bucket: AWS_S3_BUCKET_NAME,
+      Key: key,
+    });
+
     try {
-      const response = await fetch(fileUrl);
-
-      if (response.status === 404) {
-        return null;
-      }
-
-      return await response.json();
+      const response = await S3.client.send(command);
+      const str = await response.Body?.transformToString();
+      return JSON.parse(str);
     } catch (error) {
-      console.error(error);
-      throw error;
+      if (error.Code === "NoSuchKey") {
+        return null;
+      } else {
+        console.error(error);
+        throw error;
+      }
     }
   }
 }
