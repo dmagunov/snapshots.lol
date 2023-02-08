@@ -15,8 +15,6 @@ import {
   arrayBufferToBuffer,
 } from "./utils";
 
-const { join } = path;
-
 const AWS_S3_ACCESS_KEY = process.env.AWS_S3_ACCESS_KEY!;
 const AWS_S3_SECRET_KEY = process.env.AWS_S3_SECRET_KEY!;
 const AWS_S3_BUCKET_REGION = process.env.AWS_S3_BUCKET_REGION;
@@ -26,6 +24,9 @@ const AWS_S3_BUCKET_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL!;
 const SCREENSHOT_API_URL = process.env.SCREENSHOT_API_URL!;
 const NEXT_PUBLIC_HOST = process.env.NEXT_PUBLIC_HOST!;
 
+const LOCAL_FOLDER_PATH_PREFIX = path.join(process.cwd(), "/public/snapshots");
+const LOCAL_FOLDER_URL_PREFIX = `http://${NEXT_PUBLIC_HOST}/snapshots`;
+
 const CACHE_FOLDER = "cache";
 const PREVIEW_FOLDER = "preview";
 const META_FILE_NAME = "meta.json";
@@ -33,8 +34,7 @@ const SNAPSHOT_FILE_NAME = "snapshot.json";
 const SCREENSHOT_FILE_NAME = "image.png";
 
 export default class API {
-  // static dev: boolean = process.env.NODE_ENV === "development";
-  static dev: boolean = false;
+  static dev: boolean = process.env.NODE_ENV === "development";
 
   static async takeSnapshotScreenshot(url: string): Promise<Blob> {
     let response = await fetch(SCREENSHOT_API_URL, {
@@ -64,7 +64,10 @@ export default class API {
     let blob = await API.takeSnapshotScreenshot(snapshotUrl);
 
     if (API.dev) {
-      return await LocalFolder.saveSnapshotScreenshot(snapshotId, blob);
+      let filePath = `/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
+      const buffer = await blobToBuffer(blob);
+      await LocalFolder.saveFile(filePath, buffer);
+      return LocalFolder.getFileUrl(filePath);
     }
 
     let data = await blob.arrayBuffer();
@@ -75,7 +78,7 @@ export default class API {
 
   static getSnapshotScreenshotUrl(snapshotId: string): string {
     return API.dev
-      ? LocalFolder.getSnapshotScreenshotUrl(snapshotId)
+      ? LocalFolder.getFileUrl(`${snapshotId}/${SCREENSHOT_FILE_NAME}`)
       : S3.getObjectUrl(
           `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
         );
@@ -85,7 +88,7 @@ export default class API {
     snapshotId: string
   ): Promise<ReadableStream<Uint8Array> | null> {
     let url = API.dev
-      ? LocalFolder.getSnapshotScreenshotUrl(snapshotId)
+      ? LocalFolder.getFileUrl(`${snapshotId}/${SCREENSHOT_FILE_NAME}`)
       : S3.getObjectUrl(
           `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
         );
@@ -99,8 +102,11 @@ export default class API {
     meta: string
   ): Promise<string> {
     if (API.dev) {
-      return await LocalFolder.saveSnapshotMeta(snapshotId, meta);
+      let filePath = `${snapshotId}/${META_FILE_NAME}`;
+      await LocalFolder.saveFile(filePath, meta);
+      return LocalFolder.getFileUrl(filePath);
     }
+
     let key = `${CACHE_FOLDER}/${snapshotId}/${META_FILE_NAME}`;
     await S3.saveObject(key, meta);
     return S3.getObjectUrl(key);
@@ -108,11 +114,9 @@ export default class API {
 
   static async saveSnapshot(snapshotId: string, meta: string): Promise<string> {
     if (API.dev) {
-      return await LocalFolder.saveSnapshotMeta(
-        snapshotId,
-        meta,
-        SNAPSHOT_FILE_NAME
-      );
+      let filePath = `${snapshotId}/${SNAPSHOT_FILE_NAME}`;
+      await LocalFolder.saveFile(filePath, meta);
+      return LocalFolder.getFileUrl(filePath);
     }
 
     let key = `${PREVIEW_FOLDER}/${snapshotId}/${SNAPSHOT_FILE_NAME}`;
@@ -122,19 +126,22 @@ export default class API {
 
   static async getSnapshots(): Promise<(string | undefined)[]> {
     return API.dev
-      ? await LocalFolder.getSnapshots()
+      ? await LocalFolder.listFolders(
+          LOCAL_FOLDER_PATH_PREFIX,
+          `/${META_FILE_NAME}`
+        )
       : await S3.listObjects(`${CACHE_FOLDER}/`);
   }
 
   static async getSnapshotMeta(snapshotId: string): Promise<JSON> {
     return API.dev
-      ? await LocalFolder.getSnapshotMeta(snapshotId)
+      ? await LocalFolder.getFile(`${snapshotId}/${META_FILE_NAME}`)
       : await S3.getObject(`${CACHE_FOLDER}/${snapshotId}/${META_FILE_NAME}`);
   }
 
   static async getSnapshot(snapshotId: string): Promise<JSON> {
     return API.dev
-      ? await LocalFolder.getSnapshotMeta(snapshotId, SNAPSHOT_FILE_NAME)
+      ? await LocalFolder.getFile(`${snapshotId}/${SNAPSHOT_FILE_NAME}`)
       : await S3.getObject(
           `${PREVIEW_FOLDER}/${snapshotId}/${SNAPSHOT_FILE_NAME}`
         );
@@ -142,69 +149,34 @@ export default class API {
 }
 
 class LocalFolder {
-  static pathPrefix = "/public/snapshots";
+  static getFileUrl(filePath: string): string {
+    return `${LOCAL_FOLDER_URL_PREFIX}/${filePath}`;
+  }
 
-  static async saveSnapshotScreenshot(
-    snapshotId: string,
-    blob: Blob
-  ): Promise<string> {
-    const filePath = path.join(
-      process.cwd(),
-      LocalFolder.pathPrefix,
-      `/${snapshotId}/${SCREENSHOT_FILE_NAME}`
-    );
-    const buffer = await blobToBuffer(blob);
-    if (!fsSync.existsSync(path.dirname(filePath))) {
-      await fs.mkdir(path.dirname(filePath), { recursive: true });
+  static async saveFile(filePath: string, data: any): Promise<void> {
+    const fullPath = path.join(LOCAL_FOLDER_PATH_PREFIX, filePath);
+
+    if (!fsSync.existsSync(path.dirname(fullPath))) {
+      await fs.mkdir(path.dirname(fullPath), { recursive: true });
     }
-    await fs.writeFile(filePath, buffer);
-
-    return `http://${NEXT_PUBLIC_HOST}/snapshots/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
+    return await fs.writeFile(fullPath, data);
   }
 
-  static getSnapshotScreenshotUrl(snapshotId: string): string {
-    return `http://${NEXT_PUBLIC_HOST}/snapshots/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
-  }
+  static async listFolders(
+    prefix: string,
+    postfix: string
+  ): Promise<(string | undefined)[]> {
+    let folders = await fs.readdir(prefix);
 
-  static async saveSnapshotMeta(
-    snapshotId: string,
-    meta: string,
-    fileName: string = META_FILE_NAME
-  ): Promise<string> {
-    const filePath = path.join(
-      process.cwd(),
-      LocalFolder.pathPrefix,
-      `/${snapshotId}/${fileName}`
-    );
-    if (!fsSync.existsSync(path.dirname(filePath))) {
-      await fs.mkdir(path.dirname(filePath), { recursive: true });
-    }
-    await fs.writeFile(filePath, meta, "utf8");
-
-    return `http://${NEXT_PUBLIC_HOST}/snapshots/${snapshotId}/${fileName}`;
-  }
-
-  static async getSnapshots(): Promise<(string | undefined)[]> {
-    const snapshotsPath: string = join(process.cwd(), LocalFolder.pathPrefix);
-
-    let snapshotsFolders = await fs.readdir(snapshotsPath);
-
-    return snapshotsFolders.filter((snapshot) =>
-      fsSync.existsSync(`${snapshotsPath}/${snapshot}/${META_FILE_NAME}`)
+    return folders.filter((dir) =>
+      fsSync.existsSync(`${prefix}/${dir}${postfix}`)
     );
   }
 
-  static async getSnapshotMeta(
-    snapshotId: string,
-    fileName: string = META_FILE_NAME
-  ): Promise<JSON | null> {
+  static async getFile(filePath: string): Promise<JSON | null> {
     try {
-      const filePath = path.join(
-        process.cwd(),
-        LocalFolder.pathPrefix,
-        `${snapshotId}/${fileName}`
-      );
-      const jsonData = await fs.readFile(filePath);
+      const fullPath = path.join(LOCAL_FOLDER_PATH_PREFIX, filePath);
+      const jsonData = await fs.readFile(fullPath);
       return JSON.parse(jsonData.toString());
     } catch (error) {
       return null;
