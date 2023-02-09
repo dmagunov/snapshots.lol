@@ -13,7 +13,8 @@ export default function middleware(req: NextRequest) {
   if (
     !url.pathname.includes(".") && // exclude all files in the public folder
     !url.pathname.startsWith("/api") && // exclude all API routes
-    !url.pathname.startsWith("/preview") // exclude all preview routes
+    !url.pathname.startsWith("/preview") && // exclude all preview routes
+    !req.headers.has("x-prerender-revalidate") // exclude revalidate request
   ) {
     url.pathname = `/${subdomain}`;
     return NextResponse.rewrite(url);
