@@ -23,9 +23,9 @@ import IconButton from "components/IconButton/IconButton";
 import ToolBar from "components/ToolBar/ToolBar";
 
 import QuestionIcon from "public/images/question.svg";
-import { Container, CodeContainer, PreviewContainer, EditButton } from "./404.styles";
+import { Container, CodeContainer, PreviewContainer, EditButton } from "./SnapshotEditor.styles";
 
-type Page404Props = {
+type SnapshotEditorComponentProps = {
   updateTheme: (theme: Theme) => void;
 };
 
@@ -33,7 +33,7 @@ const VIEW_STATE_EDITOR = 0;
 const VIEW_STATE_PREVIEW = 1;
 const VIEW_STATE_SPLIT = 2;
 
-export default function Page404({ updateTheme }: Page404Props) {
+export default function SnapshotEditorComponent({ updateTheme }: SnapshotEditorComponentProps) {
   const [snapshot, setSnapshot] = useState<SnapshotType>(undefined);
   const [isValid, setIsValid] = useState<boolean>(true);
   const [isMint, setMint] = useState<boolean>(false);

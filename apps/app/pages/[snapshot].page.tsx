@@ -8,6 +8,7 @@ import API from "lib/api";
 import { fromMetaToSnapshot } from "lib/snapshot";
 import { EaselDarkLoader, LoaderOverlay } from "components/Loader/Loader";
 import SnapshotPage from "components/SnapshotPage/SnapshotPage";
+import SnapshotEditor from "components/SnapshotEditor/SnapshotEditor";
 
 type Params = {
   params: {
@@ -37,7 +38,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         },
       };
     }),
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -46,7 +47,9 @@ export const getStaticProps = async ({ params }: Params) => {
 
   try {
     let snapshotMeta = await API.getSnapshotMeta(params.snapshot);
-    snapshot = await fromMetaToSnapshot(snapshotMeta);
+    if (snapshotMeta) {
+      snapshot = await fromMetaToSnapshot(snapshotMeta);
+    }
   } catch (error) {
     console.error(error);
   }
@@ -68,6 +71,10 @@ export default function Snapshot({ snapshot, updateTheme }: Props) {
       </LoaderOverlay>
     );
   }
+
+  if (!snapshot) return (
+    <SnapshotEditor updateTheme={updateTheme} />
+  );
 
   return (
     <SnapshotPage
