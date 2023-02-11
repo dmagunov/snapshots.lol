@@ -62,7 +62,7 @@ const SNAPSHOT_FORMAT = `{
   "image": image,
   "id": id,
   "version": version,
-  description: description,
+  "description": description,
   "theme": {
     "name": attributes[trait_type='${META_THEME_LABEL}'].value,
     "styles": theme_styles
@@ -281,6 +281,10 @@ export const META_JSON_SCHEMA = {
     image: {
       type: "string",
       description: "Snapshot image url"
+    },
+    description: {
+      type: "string",
+      description: "Snapshot description"
     },
     theme_styles: THEME_JSON_SCHEMA,
     attributes: {
