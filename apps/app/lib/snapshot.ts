@@ -62,6 +62,7 @@ const SNAPSHOT_FORMAT = `{
   "image": image,
   "id": id,
   "version": version,
+  description: description,
   "theme": {
     "name": attributes[trait_type='${META_THEME_LABEL}'].value,
     "styles": theme_styles

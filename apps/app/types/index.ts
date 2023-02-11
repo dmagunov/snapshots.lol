@@ -33,6 +33,7 @@ export type Snapshot = {
   id: string;
   type: string;
   image?: string;
+  description?: string;
   block: SnapshotBlockDimensions;
   board: SnapshotBoard;
   theme: SnapshotTheme;

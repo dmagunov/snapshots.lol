@@ -9,7 +9,7 @@ import { fromMetaToSnapshot } from "lib/snapshot";
 
 import ToolBar from "components/ToolBar/ToolBar";
 import { EaselDarkLoader, LoaderOverlay } from "components/Loader/Loader";
-import SnapshotPageMeta from "components/SnapshotPageMeta/SnapshotPageMeta";
+import PageMeta from "components/PageMeta/PageMeta";
 import Snapshot from "components/Snapshot/Snapshot";
 import ShareButton from "components/ShareButton/ShareButton";
 import IconButton from "components/IconButton/IconButton";
@@ -76,10 +76,15 @@ export default function SnapshotPage({ snapshot, updateTheme }: Props) {
     );
   }
 
+  const snapshotImageUrl = API.getSnapshotScreenshotUrl(snapshot.id);
+
   return (
     <>
-      <SnapshotPageMeta
-        snapshot={snapshot}
+      <PageMeta
+        title={snapshot.name}
+        description={snapshot.description}
+        url={snapshot.url}
+        image={snapshotImageUrl}
       />
       <Snapshot
         snapshot={snapshot}
