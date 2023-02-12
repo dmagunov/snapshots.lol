@@ -443,7 +443,5 @@ export async function fromMetaToSnapshot(meta: JSON | Object): Promise<SnapshotT
 }
 
 export function getSnapshotIdFromUrl(): string {
-  return window.location.host.search(/\.+/) !== -1
-  ? window.location.host.split(".")[0]
-  : window.location.pathname.replace("/", "");
+  return window.location.pathname.replace("/", "");
 }
