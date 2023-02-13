@@ -6,18 +6,11 @@ import { IndexeddbPersistence } from "y-indexeddb";
 import * as mutex from "lib0/mutex.js";
 import MonacoBinding from "./MonacoBinding";
 
-// TODO: !!! use own websocket server
-// Move to .env
-export const WEBRTC_SIGNALING_SERVERS = [
-  "wss://signaling.yjs.dev",
-  "wss://y-webrtc-signaling-us.herokuapp.com",
-  "wss://y-webrtc-signaling-eu.herokuapp.com",
-];
-
+export const WEBRTC_SIGNALING_SERVERS = JSON.parse(
+  process.env.NEXT_PUBLIC_WEBRTC_SIGNALING_SERVERS!
+);
 export const YDOC_UPDATE_ORIGIN_CURRENT_EDITOR =
   "YDOC_UPDATE_ORIGIN_CURRENT_EDITOR";
-export const YDOC_UPDATE_ORIGIN_PROGRAMMATIC =
-  "YDOC_UPDATE_ORIGIN_PROGRAMMATIC";
 
 export class YConfig {
   roomId: string;
@@ -62,7 +55,7 @@ export class YConfig {
       signaling: WEBRTC_SIGNALING_SERVERS,
       password: null,
       awareness: this.awareness,
-      maxConns: 50 + Math.floor(Math.random() * 15),
+      maxConns: Number.POSITIVE_INFINITY,
       filterBcConns: true,
       peerOpts: {},
     });
