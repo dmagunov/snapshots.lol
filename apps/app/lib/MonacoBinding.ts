@@ -4,10 +4,7 @@ import * as Y from "yjs";
 import * as error from "lib0/error.js";
 import { createMutex, mutex } from "lib0/mutex.js";
 import * as awarenessProtocol from "y-protocols/awareness.js";
-
-// TODO: What is this?
-export const YDOC_UPDATE_ORIGIN_CURRENT_EDITOR =
-  "YDOC_UPDATE_ORIGIN_CURRENT_EDITOR";
+import { YDOC_UPDATE_ORIGIN_CURRENT_EDITOR } from "./YConfig";
 
 type Direction = any;
 type Selection = {

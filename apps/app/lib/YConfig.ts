@@ -2,7 +2,6 @@
 import * as Y from "yjs";
 import * as awarenessProtocol from "y-protocols/awareness.js";
 import { WebrtcProvider } from "y-webrtc";
-import { IndexeddbPersistence } from "y-indexeddb";
 import * as mutex from "lib0/mutex.js";
 import MonacoBinding from "./MonacoBinding";
 
@@ -20,10 +19,8 @@ export class YConfig {
   userId: number;
   initialValue: Uint8Array;
   doc: Y.Doc | undefined;
-  initialEncodedYDoc: string | undefined;
   awareness: awarenessProtocol.Awareness | undefined;
   webRTCProvider: WebrtcProvider | undefined;
-  indexedDBPersistence: IndexeddbPersistence | undefined;
   monacoBinding: MonacoBinding | undefined;
   mux: mutex.mutex;
   checkIfConnectedIntervalId: ReturnType<typeof setInterval> | null;
@@ -70,7 +67,6 @@ export class YConfig {
     );
 
     if (!this.webRTCProvider.connected) {
-      this.webRTCProvider.connect();
       this.setupInitialValue();
     }
   }
