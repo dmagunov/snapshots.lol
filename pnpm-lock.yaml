@@ -126,7 +126,7 @@ importers:
       ethers: ^5.7.1
       hardhat: ^2.12.6
       hardhat-address-exporter: ^0.0.4
-      hardhat-deploy: ^0.11.20
+      hardhat-deploy: ^0.11.23
       hardhat-gas-reporter: ^1.0.9
       solhint: ^3.3.7
       solidity-coverage: ^0.8.2
@@ -152,7 +152,7 @@ importers:
       chai: 4.3.7
       dotenv: 16.0.3
       ethers: 5.7.2
-      hardhat-deploy: 0.11.22
+      hardhat-deploy: 0.11.23
       hardhat-gas-reporter: 1.0.9_hardhat@2.12.6
       solhint: 3.3.7
       solidity-coverage: 0.8.2_hardhat@2.12.6
@@ -5343,7 +5343,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
     transitivePeerDependencies:
       - debug
     dev: false
@@ -7613,6 +7613,16 @@ packages:
       tslib: 2.4.1
     dev: false
 
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -8008,8 +8018,8 @@ packages:
       hardhat: 2.12.6_z6wznmtyb6ovnulj6iujpct7um
     dev: false
 
-  /hardhat-deploy/0.11.22:
-    resolution: {integrity: sha512-ZhHVNB7Jo2l8Is+KIAk9F8Q3d7pptyiX+nsNbIFXztCz81kaP+6kxNODRBqRCy7SOD3It4+iKCL6tWsPAA/jVQ==}
+  /hardhat-deploy/0.11.23:
+    resolution: {integrity: sha512-9F+sDRX79D/oV1cUEE0k2h5LiccrnzXEtrMofL5PTVDCJfUnRvhQqCRi4NhcYmxf2+MBkOIJv5KyzP0lz6ojTw==}
     dependencies:
       '@types/qs': 6.9.7
       axios: 0.21.4_debug@4.3.4
