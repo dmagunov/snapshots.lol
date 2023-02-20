@@ -125,7 +125,6 @@ importers:
       '@typechain/hardhat': ^6.1.5
       '@types/node': ^18.11.18
       chai: ^4.3.6
-      dotenv: latest
       ethers: ^5.7.1
       hardhat: ^2.12.6
       hardhat-address-exporter: ^0.0.4
@@ -153,7 +152,6 @@ importers:
       '@typechain/hardhat': 6.1.5_flitjyqkwkdrfmvmmkefmykn34
       '@types/node': 18.11.18
       chai: 4.3.7
-      dotenv: 16.0.3
       ethers: 5.7.2
       hardhat-deploy: 0.11.23
       hardhat-gas-reporter: 1.0.9_hardhat@2.12.6
@@ -5346,7 +5344,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -6485,6 +6483,7 @@ packages:
   /dotenv/16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
+    dev: false
 
   /duplexify/4.1.2:
     resolution: {integrity: sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==}
@@ -7627,16 +7626,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       tslib: 2.4.1
-    dev: false
-
-  /follow-redirects/1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
     dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
