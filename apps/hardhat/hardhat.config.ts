@@ -1,4 +1,3 @@
-import "dotenv/config";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
@@ -8,7 +7,7 @@ import "hardhat-address-exporter";
 import "solidity-coverage";
 import { HardhatUserConfig } from "hardhat/config";
 
-const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL!;
+const GOERLI_RPC_URL = process.env.NEXT_PUBLIC_RPC_5!;
 const METAMASK_PRIVATE_KEY = process.env.METAMASK_PRIVATE_KEY!;
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY!;
 

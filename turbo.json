@@ -13,15 +13,32 @@
     },
     "dev": {
       "dependsOn": ["^build"],
-      "cache": false
+      "cache": false,
+      "env": [
+        "LOCAL_HOST_NAME",
+        "LOCAL_IP_ADDRESS",
+        "METAMASK_PRIVATE_KEY",
+        "ETHERSCAN_API_KEY",
+        "AWS_S3_ACCESS_KEY",
+        "AWS_S3_SECRET_KEY",
+        "AWS_S3_BUCKET_NAME",
+        "AWS_S3_BUCKET_REGION",
+        "NEXT_PUBLIC_AWS_S3_BUCKET_URL",
+        "SCREENSHOT_API_URL",
+        "SNAPSHOT_PREVIEW_URL_PREFIX",
+        "NFT_STORAGE_API_KEY",
+        "PINATA_API_KEY",
+        "PINATA_API_SECRET",
+        "PINATA_JWT",
+        "NEXT_PUBLIC_HOST",
+        "NEXT_PUBLIC_DEFAULT_CHAIN",
+        "NEXT_PUBLIC_SUPPORTED_CHAINS",
+        "NEXT_PUBLIC_RPC_31337",
+        "NEXT_PUBLIC_RPC_1",
+        "NEXT_PUBLIC_RPC_5",
+        "NEXT_PUBLIC_TX_WAIT_CONFIRMATIONS",
+        "NEXT_PUBLIC_WEBRTC_SIGNALING_SERVERS"
+      ]
     }
-  },
-  "globalEnv": [
-    "NEXT_PUBLIC_URL",
-    "NEXT_PUBLIC_DEFAULT_CHAIN",
-    "NEXT_PUBLIC_SUPPORTED_CHAINS",
-    "NEXT_PUBLIC_RPC_31337",
-    "NEXT_PUBLIC_RPC_1",
-    "NEXT_PUBLIC_RPC_5"
-  ]
+  }
 }

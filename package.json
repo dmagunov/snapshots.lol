@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "app:dev": "pnpm -F \"app\" dev"
+    "dev": "dotenv -- turbo run dev --parallel"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -18,5 +17,8 @@
   },
   "devDependencies": {
     "turbo": "^1.5.5"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.0.0"
   }
 }
