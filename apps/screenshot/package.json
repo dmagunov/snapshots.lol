@@ -9,7 +9,7 @@
     "app/*"
   ],
   "scripts": {
-    "dev": "docker build -q -t screenshot-dev . && docker run -p 9000:8080 --add-host=thenftsnapshot:10.0.0.84 screenshot-dev"
+    "dev": "docker build -q -t screenshot-dev . && docker run -p 9000:8080 --add-host=$LOCAL_HOST_NAME:$LOCAL_IP_ADDRESS screenshot-dev"
   },
   "dependencies": {
     "chrome-aws-lambda": "10.1.0",
