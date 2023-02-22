@@ -1,23 +1,13 @@
-# Progressive Web App Example
+# Snapshots.lol app
 
-This example uses [`next-pwa`](https://github.com/shadowwalker/next-pwa) to create a progressive web app (PWA) powered by [Workbox](https://developers.google.com/web/tools/workbox/).
+The Snapshots.lol app is the main application in this monorepo and is built using Next.js. The app is designed to allow users to create and share NFT snapshots easily.
 
-## Deploy your own
+### Technologies
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+Some of technologies have been used:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/progressive-web-app&project-name=progressive-web-app&repository-name=progressive-web-app)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example progressive-web-app progressive-web-app
-# or
-yarn create next-app --example progressive-web-app progressive-web-app
-# or
-pnpm create next-app -- --example progressive-web-app progressive-web-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- [Monaco Editor](https://github.com/microsoft/monaco-editor): a code editor that powers VS Code. It has been integrated into the project to allow users to edit and create NFT snapshots.
+- [Yjs](https://github.com/yjs/yjs): a CRDT (conflict-free replicated data type) framework that provides a powerful abstraction of shared data. It has been used to enable collaborative editing and real-time synchronization of snapshot data.
+- [next-pwa](https://github.com/shadowwalker/next-pwa): used to create a Progressive Web App (PWA) from the Next.js application.
+- [JSONata](https://github.com/jsonata-js/jsonata): JSON query and transformation language.
+- [@use-gesture](https://github.com/pmndrs/use-gesture): a library that lets you bind richer mouse and touch events to any component or view.
