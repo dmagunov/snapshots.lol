@@ -37,6 +37,9 @@ export default async function handler(
     }
 
     let snapshotMetaResponse = await fetch(snapshotMetaUrl);
+    if (!snapshotMetaResponse.ok) {
+      throw new Error("Could not fetch snapshot meta");
+    }
     let snapshotMeta = await snapshotMetaResponse.text();
 
     const ajv = new Ajv({ strict: false });

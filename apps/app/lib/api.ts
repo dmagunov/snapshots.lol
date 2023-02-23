@@ -36,13 +36,17 @@ const SCREENSHOT_FILE_NAME = "image.png";
 export default class API {
   static dev: boolean = process.env.NODE_ENV === "development";
 
-  static async takeSnapshotScreenshot(url: string): Promise<Blob> {
+  static async takeSnapshotScreenshot(url: string): Promise<Blob | null> {
     let response = await fetch(SCREENSHOT_API_URL, {
       method: "POST",
       body: JSON.stringify({
         url,
       }),
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to take screenshot");
+    }
 
     let contentType = response.headers.get("content-type");
 

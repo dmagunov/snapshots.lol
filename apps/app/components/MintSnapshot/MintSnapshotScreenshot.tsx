@@ -25,7 +25,6 @@ export default function MintSnapshotScreenshotComponent({
   const { data, error } = useFetch<Response>(API_SNAPSHOT_URL, {
     method: "POST",
     body: JSON.stringify(snapshot)
-    
   });
 
   useEffect(() => {
@@ -36,6 +35,7 @@ export default function MintSnapshotScreenshotComponent({
 
   useEffect(() => {
     if (error) {
+      console.error(error);
       onError(error);
     }
   }, [error]);
