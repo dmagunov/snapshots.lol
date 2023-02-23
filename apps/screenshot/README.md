@@ -15,4 +15,4 @@ Replace `<image_name>` with the name of the image you want to use, for example `
 6. Create a function in AWS Lambda with the following configuration:
    - Image: `<account-id>.dkr.ecr.<region>.amazonaws.com/<image-name>:<image-tag>`
    - Memory: `512 MB` or more
-   - Timeout: `1 min`
+   - Timeout: `30 sec` or more
