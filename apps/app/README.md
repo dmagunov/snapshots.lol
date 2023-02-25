@@ -2,7 +2,7 @@
 
 The Snapshots.lol app is the main application in this monorepo and is built using Next.js. The app is designed to allow users to create and share NFT snapshots easily.
 
-### Technologies
+### Built With
 
 Some of technologies have been used:
 
