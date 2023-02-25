@@ -23,7 +23,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="NFT Cultural Snapshots" />
         <meta name="keywords" content="NFT, Snapshot" />
-        <title>The NFT Snapshot</title>
+        <title>NFT Snapshots</title>
 
         <link rel="manifest" href="/manifest.json" />
 
