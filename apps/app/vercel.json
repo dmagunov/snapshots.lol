@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/", "destination": "https://thenftsnapshot.com/" },
-    { "source": "/:match*", "destination": "https://snapshots.lol/:match*" }
-  ]
-}
