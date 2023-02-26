@@ -90,7 +90,7 @@ The ways you can contribute are:
 - [Reporting bugs](https://github.com/dmagunov/snapshots.lol/issues)
 - [Suggesting new features](https://github.com/dmagunov/snapshots.lol/issues)
 - Creating pull requests
-- [Creating a Snapshot Theme](./packages/themes/README.md)
+- [Creating a Snapshot Theme](./packages/themes)
 
 ## License
 
