@@ -2,7 +2,7 @@
 <div align="center">
   <img src="https://www.thenftsnapshot.com/static/media/board-animated-pixel.75802afa235dd9a1a2cf.gif" alt="Logo" width="80" height="80">
 
-  <h3 align="center">Snapshots.lol</h3>
+  <h3 align="center">Snapshots.LOL</h3>
 
   <p align="center">
     Create a masterpiece together and own a piece forever with collaborative art NFT snapshots!
@@ -68,7 +68,7 @@ pnpm dev
   - [ ] Upgradable Smart Contract
   - [ ] Deploy to Mainnet
 
-- Snapshots.lol
+- Snapshots.LOL:
 
   - [ ] Interactive UI for Snapshot Creation
   - [ ] Mobile first
