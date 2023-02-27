@@ -5,19 +5,16 @@
   <h3 align="center">Snapshots.LOL</h3>
 
   <p align="center">
-    Create a masterpiece together and own a piece forever with collaborative art NFT snapshots!
+    Create a masterpiece together and own a piece forever!
   </p>
   <p align="center">
-  <!-- https://snapshots.lol/demo -->
   <a href="https://0.thenftsnapshot.com/">Demo Snapshot</a> · <a href="https://snapshots.lol">Website</a>
   </p>
 </div>
 
 ## About The Project
 
-<!-- <video> -->
-
-Collaboration has the power to create unique projects! Just take a look at Reddit Place - a project where people from all over the world came together to create a massive collaborative artwork. I want to take this idea even further and create a new kind of art that brings together all sorts of different elements like images, videos, and texts.
+They say art is a solitary pursuit... but who wants to be alone when you can be surrounded by other people's bad ideas? That's the inspiration behind Snapshots.lol, a project that encourages collaboration, experimentation, and a total disregard for "good taste" - because let's face it, good taste is so overrated.
 
 ## Built With
 
