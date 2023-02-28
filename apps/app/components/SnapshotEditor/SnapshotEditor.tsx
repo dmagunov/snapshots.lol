@@ -23,7 +23,7 @@ import IconButton from "components/IconButton/IconButton";
 import ToolBar from "components/ToolBar/ToolBar";
 
 import QuestionIcon from "public/images/question.svg";
-import { Container, CodeContainer, PreviewContainer, EditButton } from "./SnapshotEditor.styles";
+import { Page, Banner, Container, CodeContainer, PreviewContainer, EditButton } from "./SnapshotEditor.styles";
 
 type SnapshotEditorComponentProps = {
   updateTheme: (theme: Theme) => void;
@@ -84,85 +84,87 @@ export default function SnapshotEditorComponent({ updateTheme }: SnapshotEditorC
   if (!snapshot) return null;
 
   return (
-    <Container>
-      
-      <CodeContainer 
-        style={{display: [VIEW_STATE_SPLIT, VIEW_STATE_EDITOR].includes(viewState) ? 'flex' : 'none'}}
-      >
-        <Editor
-          width={viewState === VIEW_STATE_SPLIT ? "50vw" : "100vw"}
-          height="100%"
-          onMount={onEditorMount}
-          onValidate={onValidate}
-        />
-      </CodeContainer>
-      
-      <PreviewContainer
-        style={{display: [VIEW_STATE_SPLIT, VIEW_STATE_PREVIEW].includes(viewState) ? 'flex' : 'none'}}
-      >
-        <Snapshot
-          snapshot={snapshot}
-          updateTheme={updateTheme}
-        />
-      </PreviewContainer>
-
-      {isClient && (
-        <GesturesWrapper
-          scale={isMobile ? 0.7 : 1}
-          zIndex={4}
-          top={isMobile ? `calc(95vh - 8rem)` : `calc(50vh - 6.5rem)`}
-          left={isMobile ? `calc(90vw - 10rem)` : `calc(50vw - 6.5rem)`}
+    <Page>
+      <Banner>
+        Welcome to Snapshots.lol demo! If you&apos;re expecting everything to work perfectly, you might be in the wrong place. Want to dive in anyway, head to our&nbsp;<a href="https://github.com/dmagunov/snapshots.lol">Github</a>
+      </Banner>
+      <Container>
+        <CodeContainer 
+          style={{display: [VIEW_STATE_SPLIT, VIEW_STATE_EDITOR].includes(viewState) ? 'flex' : 'none'}}
         >
-          <MintButton
-            disabled={!isValid}
-            onClick={() => setMint(true)}
+          <Editor
+            width={viewState === VIEW_STATE_SPLIT ? "50vw" : "100vw"}
+            onMount={onEditorMount}
+            onValidate={onValidate}
           />
-        </GesturesWrapper>
-      )}
-
-      {isMobile && (
-        <GesturesWrapper
-          scale={0.7}
-          zIndex={4}
-          top={`calc(95vh - 8rem)`}
-          left={`calc(90vw - 21rem)`}
+        </CodeContainer>
+        
+        <PreviewContainer
+          style={{display: [VIEW_STATE_SPLIT, VIEW_STATE_PREVIEW].includes(viewState) ? 'flex' : 'none'}}
         >
-          <EditButton 
-            color={(viewState === VIEW_STATE_EDITOR ? 'blue' : 'green')} 
-            onClick={() => setViewState(viewState === VIEW_STATE_EDITOR ? VIEW_STATE_PREVIEW : VIEW_STATE_EDITOR)}
-            title={viewState === VIEW_STATE_EDITOR ? 'Toggle Preview' : 'Toggle Editor'}
+          <Snapshot
+            snapshot={snapshot}
+            updateTheme={updateTheme}
+          />
+        </PreviewContainer>
+
+        {isClient && (
+          <GesturesWrapper
+            scale={isMobile ? 0.7 : 1}
+            zIndex={4}
+            top={isMobile ? `calc(95vh - 8rem)` : `calc(50vh - 6.5rem)`}
+            left={isMobile ? `calc(90vw - 10rem)` : `calc(50vw - 6.5rem)`}
           >
-            {viewState === VIEW_STATE_PREVIEW ? (
-              <Image src={'/images/code.png'} width={60} height={60} alt="Toggle Editor"/>
-            ) : (
-              <Image src={'/images/preview.png'} width={70} height={70} alt="Toggle Preview"/>
-            )}
-            
-          </EditButton>
-        </GesturesWrapper>
-      )}
+            <MintButton
+              disabled={!isValid}
+              onClick={() => setMint(true)}
+            />
+          </GesturesWrapper>
+        )}
 
-      <ToolBar>
-        <IconButton
-          onClick={() => setIsHelpShown(true)}
-        >
-          <QuestionIcon width="20" />
-        </IconButton>
-      </ToolBar>
+        {isMobile && (
+          <GesturesWrapper
+            scale={0.7}
+            zIndex={4}
+            top={`calc(95vh - 8rem)`}
+            left={`calc(90vw - 21rem)`}
+          >
+            <EditButton 
+              color={(viewState === VIEW_STATE_EDITOR ? 'blue' : 'green')} 
+              onClick={() => setViewState(viewState === VIEW_STATE_EDITOR ? VIEW_STATE_PREVIEW : VIEW_STATE_EDITOR)}
+              title={viewState === VIEW_STATE_EDITOR ? 'Toggle Preview' : 'Toggle Editor'}
+            >
+              {viewState === VIEW_STATE_PREVIEW ? (
+                <Image src={'/images/code.png'} width={60} height={60} alt="Toggle Editor"/>
+              ) : (
+                <Image src={'/images/preview.png'} width={70} height={70} alt="Toggle Preview"/>
+              )}
+              
+            </EditButton>
+          </GesturesWrapper>
+        )}
 
-      {isMint && 
-        <Dialog zIndex={4}>
-          <MintSnapshot snapshot={snapshot} onClose={() => setMint(false)}/>
-        </Dialog>
-      }
+        <ToolBar>
+          <IconButton
+            onClick={() => setIsHelpShown(true)}
+          >
+            <QuestionIcon width="20" />
+          </IconButton>
+        </ToolBar>
 
-      {isHelpShown && 
-        <Dialog zIndex={4} onDismiss={() => setIsHelpShown(false)}>
-          TODO: Text for help page
-        </Dialog>
-      }
+        {isMint && 
+          <Dialog zIndex={4}>
+            <MintSnapshot snapshot={snapshot} onClose={() => setMint(false)}/>
+          </Dialog>
+        }
 
-    </Container>
+        {isHelpShown && 
+          <Dialog zIndex={4} onDismiss={() => setIsHelpShown(false)}>
+            TODO: Text for help page
+          </Dialog>
+        }
+      </Container>
+    </Page>
   );
 }
 

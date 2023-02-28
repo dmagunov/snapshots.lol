@@ -1,10 +1,32 @@
 import styled from "styled-components";
 import CircleButton from "components/CircleButton/CircleButton";
 
-export const Container = styled.div`
+export const Page = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  flex-direction: column;
+`;
+
+export const Banner = styled.div`
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #ce100f;
+  color: #fff;
+  font-size: 1.4rem;
+  a {
+    color: #fff;
+    font-weight: bold;
+  }
+`;
+
+export const Container = styled.div`
+  display: flex;
+  width: 100%;
+  height: calc(100% - 3rem);
+  flex-grow: 1;
   flex-direction: row;
 `;
 
