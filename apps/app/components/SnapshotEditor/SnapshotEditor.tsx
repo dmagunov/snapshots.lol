@@ -158,9 +158,15 @@ export default function SnapshotEditorComponent({ updateTheme }: SnapshotEditorC
           </Dialog>
         }
 
+        {/* TODO: move to component */}
         {isHelpShown && 
           <Dialog zIndex={4} onDismiss={() => setIsHelpShown(false)}>
-            TODO: Text for help page
+            <p><b>Create a masterpiece together and own a piece forever!</b></p>
+            <p>Why limit yourself to one medium when you can have them all? With Snapshots.LOL, we&apos;re bringing together blurry photos, memes, and anything else we can get our hands on. The result is a chaotic, incoherent mess of a painting, but that&apos;s the beauty of it. So what are you waiting for? Get out there and start creating!</p>
+
+            {/* How to create a Snapshot video */}
+            
+            <p><a href="https://snapshots.lol" target="_blank" rel="noreferrer" title="Visit the main page for more info">Dig Deeper</a> 👉👉🏻👉🏼👉🏽👉🏾👉🏿</p>
           </Dialog>
         }
       </Container>
