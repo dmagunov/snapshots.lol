@@ -31,6 +31,18 @@ export const DialogContentStyled: any = styled(DialogContent)`
   }
 `;
 
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 3rem;
+  font-weight: 600;
+  cursor: pointer;
+`;
+
 export const DialogContentFrame = styled.div`
   padding: 4rem 5rem;
   width: 100%;
@@ -41,7 +53,9 @@ export const DialogContentFrame = styled.div`
   justify-content: center;
   flex-direction: column;
   background-color: #fff500;
+  position: relative;
   color: #000;
+
   picture {
     max-width: 80%;
   }

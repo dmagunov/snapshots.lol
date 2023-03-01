@@ -2,11 +2,16 @@ import { DialogOverlay } from "@reach/dialog";
 
 import ShadowBox from "components/ShadowBox/ShadowBox";
 
-import { DialogContentStyled, DialogContentFrame } from "./Dialog.styles";
+import {
+  DialogContentStyled,
+  DialogContentFrame,
+  CloseButton,
+} from "./Dialog.styles";
 
 type DialogComponentProps = {
   zIndex: number;
   isOpen?: boolean;
+  showCloseButton?: boolean;
   onDismiss?: () => void;
   children: React.ReactNode;
 };
@@ -14,6 +19,7 @@ type DialogComponentProps = {
 export default function DialogComponent({
   zIndex,
   isOpen = true,
+  showCloseButton = false,
   onDismiss,
   children,
 }: DialogComponentProps) {
@@ -25,7 +31,15 @@ export default function DialogComponent({
     >
       <DialogContentStyled>
         <ShadowBox size={48}>
-          <DialogContentFrame>{children}</DialogContentFrame>
+          <DialogContentFrame>
+            {showCloseButton && (
+              <CloseButton title="Close" onClick={onDismiss}>
+                ×
+              </CloseButton>
+            )}
+
+            {children}
+          </DialogContentFrame>
         </ShadowBox>
       </DialogContentStyled>
     </DialogOverlay>
