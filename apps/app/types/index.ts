@@ -30,6 +30,7 @@ export type SnapshotBlock = {
   url?: string;
   image?: string;
   background?: string;
+  address?: string;
 };
 
 export type SnapshotBoard = {

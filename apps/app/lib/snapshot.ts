@@ -184,6 +184,11 @@ const SNAPSHOT_BLOCK_JSON_SCHEMA = {
       pattern: "^[0-9]+$",
       description: "Snapshot block tweet id",
     },
+    address: {
+      type: "string",
+      pattern: "^(0x)?[0-9a-fA-F]{40}$",
+      description: "Author wallet address",
+    },
     styles: {
       type: "object",
       properties: {
