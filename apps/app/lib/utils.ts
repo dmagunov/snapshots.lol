@@ -42,6 +42,21 @@ const blobToBuffer = async (blob: Blob): Promise<Buffer> => {
   return Buffer.from(arrayBuffer);
 };
 
+const getObjectValue = (obj: object, path: string): any => {
+  const keys = path.split(".");
+  let value = obj;
+
+  for (let key of keys) {
+    if (value.hasOwnProperty(key)) {
+      value = value[key];
+    } else {
+      return undefined;
+    }
+  }
+
+  return value;
+};
+
 export {
   isUrl,
   bufferToBase64,
@@ -49,4 +64,5 @@ export {
   bufferToArrayBuffer,
   arrayBufferToBuffer,
   blobToBuffer,
+  getObjectValue,
 };

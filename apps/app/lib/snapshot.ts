@@ -4,7 +4,7 @@ import * as Y from "yjs";
 import jsonata from "jsonata";
 
 import { THEME_JSON_SCHEMA, THEMES } from "@thenftsnapshot/themes"
-import { bufferToBase64 } from "./utils";
+import { bufferToBase64, getObjectValue } from "./utils";
 
 // NEXT: Versioning
 
@@ -18,6 +18,19 @@ const META_BLOCK_HEIGHT_LABEL = "Block height (px)";
 const TYPES = [
   "Collage"
 ];
+
+const STYLES_MAPPINGS = {
+  valign: {
+    top: "flex-start",
+    middle: "center",
+    bottom: "flex-end",
+  },
+  align: {
+    left: "left",
+    center: "center",
+    right: "right"
+  }
+};
 
 const META_FORMAT = `{
   "id": id,
@@ -129,13 +142,93 @@ export const META_SAMPLE = {
 export const META_SAMPLE_ENCODED =
   "AQGWoNPUDwAEAQCfBnsKICAibmFtZSI6ICJTbmFwc2hvdCBEZW1vIiwKICAiZGVzY3JpcHRpb24iOiAiIiwKICAidGhlbWVfc3R5bGVzIjoge30sCiAgImF0dHJpYnV0ZXMiOiBbCiAgICB7CiAgICAgICJ0cmFpdF90eXBlIjogIlRoZW1lIiwKICAgICAgInZhbHVlIjogIklzb21ldHJpYyIKICAgIH0sCiAgICB7CiAgICAgICJ0cmFpdF90eXBlIjogIlR5cGUiLAogICAgICAidmFsdWUiOiAiQ29sbGFnZSIKICAgIH0sCiAgICB7CiAgICAgICJ0cmFpdF90eXBlIjogIkJvYXJkIHNpemUsIGNvbHVtbnMiLAogICAgICAidmFsdWUiOiAxCiAgICB9LAogICAgewogICAgICAidHJhaXRfdHlwZSI6ICJCb2FyZCBzaXplLCByb3dzIiwKICAgICAgInZhbHVlIjogMQogICAgfSwKICAgIHsKICAgICAgInRyYWl0X3R5cGUiOiAiQmxvY2sgd2lkdGggKHB4KSIsCiAgICAgICJ2YWx1ZSI6IDMwMAogICAgfSwKICAgIHsKICAgICAgInRyYWl0X3R5cGUiOiAiQmxvY2sgaGVpZ2h0IChweCkiLAogICAgICAidmFsdWUiOiAzMDAKICAgIH0KICBdLAogICJibG9ja3MiOiBbCiAgICB7CiAgICAgICJjb2wiOiAwLAogICAgICAicm93IjogMCwKICAgICAgImltYWdlIjogImh0dHBzOi8vdGhlbmZ0c25hcHNob3QuczMudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20vZGVtby9pbWFnZXMvZGVtby5naWYiLAogICAgICAiYmFja2dyb3VuZCI6ICIjZmZmIiwKICAgICAgInRleHQiOiAiQmxvY2sgMToxIGV4YW1wbGUiLAogICAgICAiaW5mbyI6ICJUb29sdGlwIiwKICAgICAgInVybCI6ICJodHRwczovL3RoZW5mdHNuYXBzaG90LmNvbSIKICAgIH0KICBdCn0A";
 
-// NEXT: move to bin
-export function createSnapshotTemplate(meta) {
-  const ydoc = new Y.Doc();
-  ydoc.getText().insert(0, meta);
-  const template = Y.encodeStateAsUpdate(ydoc);
-  return bufferToBase64(template);
-}
+const SNAPSHOT_BLOCK_JSON_SCHEMA = {
+  type: "object",
+  properties: {
+    col: {
+      type: "integer",
+      description: "Snapshot block column number",
+    },
+    row: {
+      type: "integer",
+      description: "Snapshot block row number",
+    },
+    image: {
+      type: "string",
+      pattern: "^(https?://){1,}.+$",
+      description:
+        "Snapshot block image url. For example https://example.com/image.png",
+    },
+    background: {
+      type: "string",
+      pattern: "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|[a-z]+)$",
+      description: "Snapshot block background color",
+    },
+    text: {
+      type: "string",
+      description: "Snapshot block text",
+    },
+    url: {
+      type: "string",
+      pattern:
+        "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$",
+      description: "Snapshot block link url",
+    },
+    youtubeId: {
+      type: "string",
+      pattern: "^[a-zA-Z0-9_-]+$",
+      description: "Snapshot block youtube video id",
+    },
+    tweetId: {
+      type: "string",
+      pattern: "^[0-9]+$",
+      description: "Snapshot block tweet id",
+    },
+    styles: {
+      type: "object",
+      properties: {
+        text: {
+          type: "object",
+          properties: {
+            align: {
+              type: "string",
+              description: "Snapshot block text align",
+              enum: Object.keys(STYLES_MAPPINGS.align)
+            },
+            valign: {
+              type: "string",
+              description: "Snapshot block text vertical align",
+              enum: Object.keys(STYLES_MAPPINGS.valign)
+            },
+            color: {
+              type: "string",
+              pattern: "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|[a-z]+)$",
+              description: "Snapshot block text color",
+            },
+            backgroundColor: {
+              type: "string",
+              pattern: "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|[a-z]+)$",
+              description: "Snapshot block text background color",
+            },
+            fontSize: {
+              type: "string",
+              description: "Snapshot block text font size",
+            },
+            fontWeight: {
+              type: "string",
+              description: "Snapshot block text font weight",
+            },
+            textShadow: {
+              type: "string",
+              description: "Snapshot block text shadow",
+            }
+          }
+        }
+      }
+    }
+  },
+  required: ["col", "row"],
+};
 
 export const SNAPSHOT_JSON_SCHEMA = {
   title: "Snapshot",
@@ -204,51 +297,7 @@ export const SNAPSHOT_JSON_SCHEMA = {
     blocks: {
       type: "array",
       description: "Snapshot blocks",
-      items: {
-        type: "object",
-        properties: {
-          col: {
-            type: "integer",
-            description: "Snapshot block column number",
-          },
-          row: {
-            type: "integer",
-            description: "Snapshot block row number",
-          },
-          image: {
-            type: "string",
-            pattern: "^(https?://){1,}.+$",
-            description:
-              "Snapshot block image url. For example https://example.com/image.png",
-          },
-          background: {
-            type: "string",
-            pattern: "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|[a-z]+)$",
-            description: "Snapshot block background color",
-          },
-          text: {
-            type: "string",
-            description: "Snapshot block text",
-          },
-          url: {
-            type: "string",
-            pattern:
-              "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$",
-            description: "Snapshot block link url",
-          },
-          youtubeId: {
-            type: "string",
-            pattern: "^[a-zA-Z0-9_-]+$",
-            description: "Snapshot block youtube video id",
-          },
-          tweetId: {
-            type: "string",
-            pattern: "^[0-9]+$",
-            description: "Snapshot block tweet id",
-          }
-        },
-        required: ["col", "row"],
-      }
+      items: SNAPSHOT_BLOCK_JSON_SCHEMA
     }
   }
 };
@@ -373,54 +422,18 @@ export const META_JSON_SCHEMA = {
     blocks: {
       type: "array",
       description: "Snapshot blocks",
-      items: {
-        type: "object",
-        properties: {
-          col: {
-            type: "integer",
-            description: "Snapshot block column number",
-          },
-          row: {
-            type: "integer",
-            description: "Snapshot block row number",
-          },
-          image: {
-            type: "string",
-            pattern: "^(https?://){1,}.+$",
-            description:
-              "Snapshot block image url. For example https://example.com/image.png",
-          },
-          background: {
-            type: "string",
-            pattern: "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|[a-z]+)$",
-            description: "Snapshot block background color",
-          },
-          text: {
-            type: "string",
-            description: "Snapshot block text",
-          },
-          url: {
-            type: "string",
-            pattern:
-              "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$",
-            description: "Snapshot block link url",
-          },
-          youtubeId: {
-            type: "string",
-            pattern: "^[a-zA-Z0-9_-]+$",
-            description: "Snapshot block youtube video id",
-          },
-          tweetId: {
-            type: "string",
-            pattern: "^[0-9]+$",
-            description: "Snapshot block tweet id",
-          },
-        },
-        required: ["col", "row"],
-      },
+      items:  SNAPSHOT_BLOCK_JSON_SCHEMA 
     }
   }
 };
+
+// NEXT: move to bin
+export function createSnapshotTemplate(meta) {
+  const ydoc = new Y.Doc();
+  ydoc.getText().insert(0, meta);
+  const template = Y.encodeStateAsUpdate(ydoc);
+  return bufferToBase64(template);
+}
 
 export async function toMetaFromSnapshot(snapshot: SnapshotType): Promise<string|null> {
   try {
@@ -445,3 +458,8 @@ export async function fromMetaToSnapshot(meta: JSON | Object): Promise<SnapshotT
 export function getSnapshotIdFromUrl(): string {
   return window.location.pathname.replace("/", "");
 }
+
+export const getStyle = function(...args: string[]): string|undefined {
+  let value = Array.from(args).join(".");
+  return getObjectValue(STYLES_MAPPINGS, value);
+};

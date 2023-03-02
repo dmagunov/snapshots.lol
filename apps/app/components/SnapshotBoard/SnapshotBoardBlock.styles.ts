@@ -1,4 +1,12 @@
+import type { SnapshotBlockTextStyles } from "types";
+
 import styled, { keyframes } from "styled-components";
+
+import { getStyle } from "lib/snapshot";
+
+type SnapshotBoardBlockTextStyledProps = {
+  styles?: SnapshotBlockTextStyles;
+};
 
 const fadeIn = keyframes`
   0% {
@@ -18,11 +26,6 @@ export const SnapshotBoardBlock = styled.div`
   background-size: contain;
   background-position: center;
   overflow: hidden;
-  font-family: ${(props) => props.theme.block?.fontFamily ?? "inherit"};
-  font-weight: ${(props) => props.theme.block?.fontWeight ?? "500"};
-  border: ${(props) => props.theme.block?.border ?? "none"};
-  color: ${(props) => props.theme.block?.color};
-  font-size: ${(props) => props.theme.block?.fontSize};
 `;
 
 export const SnapshotBoardBlockVideo = styled.div`
@@ -40,7 +43,7 @@ export const SnapshotBoardBlockTweet = styled.div`
   min-width: 30rem;
 `;
 
-export const SnapshotBoardBlockText = styled.div`
+export const SnapshotBoardBlockText = styled("div")<SnapshotBoardBlockTextStyledProps>`
   position: absolute;
   z-index: 3;
   top: 0;
@@ -51,22 +54,23 @@ export const SnapshotBoardBlockText = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  text-align: center;
-  padding: ${(props) => props.theme.block?.padding ?? "6rem"};
+  text-align: ${(props) => props.styles?.align ?? "center"};
+  padding: ${(props) => props.theme.block?.padding ?? "1rem"};
   box-sizing: border-box;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-weight: ${(props) => props.theme.block?.fontWeight ?? "500"};
-  background-color: ${(props) => props.theme.block?.backgroundColor};
-  color: ${(props) => props.theme.block?.color};
+  font-weight: ${(props) => props.styles?.fontWeight ?? props.theme.block?.fontWeight ?? "500"};
+  background-color: ${(props) => props.styles?.backgroundColor ?? props.theme.block?.backgroundColor};
+  color: ${(props) => props.styles?.color ?? props.theme.block?.color};
   font-family: ${(props) => props.theme.block?.fontFamily};
-  text-shadow: ${(props) => props.theme.block?.textShadow ?? "none"};
+  text-shadow: ${(props) =>  props.styles?.textShadow ?? props.theme.block?.textShadow ?? "none"};
+  font-size: ${(props) => props.styles?.fontSize ?? props.theme.block?.fontSize};
 `;
 
-export const SnapshotBoardBlockTextContent = styled.div`
+export const SnapshotBoardBlockTextContent =  styled("div")<SnapshotBoardBlockTextStyledProps>`
   flex-grow: 1;
   justify-content: center;
   display: flex;
-  align-items: center;
+  align-items: ${(props) => getStyle("valign", props.styles?.valign) ?? "center"};
 `;

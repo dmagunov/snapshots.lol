@@ -5,12 +5,27 @@ export type SnapshotBlockDimensions = {
   height: number;
 };
 
+export type SnapshotBlockTextStyles = {
+  align?: string;
+  valign?: "top" | "middle" | "bottom";
+  color?: string;
+  backgroundColor?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  textShadow?: string;
+};
+
+export type SnapshotBlockStyles = {
+  text?: SnapshotBlockTextStyles;
+}
+
 export type SnapshotBlock = {
   row: number;
   col: number;
   tweetId?: string;
   youtubeId?: string;
   text?: string;
+  styles?: SnapshotBlockStyles;
   info?: string;
   url?: string;
   image?: string;

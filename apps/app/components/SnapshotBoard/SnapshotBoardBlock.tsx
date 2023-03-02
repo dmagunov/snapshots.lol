@@ -74,8 +74,8 @@ export default function SnapshotBoardBlockComponent({
       )}
 
       {data.text && (
-        <SnapshotBoardBlockText>
-          <SnapshotBoardBlockTextContent>
+        <SnapshotBoardBlockText styles={data.styles?.text}>
+          <SnapshotBoardBlockTextContent styles={data.styles?.text}>
             <span>{data.text}</span>
           </SnapshotBoardBlockTextContent>
         </SnapshotBoardBlockText>
