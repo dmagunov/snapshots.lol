@@ -43,7 +43,9 @@ export const SnapshotBoardBlockTweet = styled.div`
   min-width: 30rem;
 `;
 
-export const SnapshotBoardBlockText = styled("div")<SnapshotBoardBlockTextStyledProps>`
+export const SnapshotBoardBlockText = styled(
+  "div"
+)<SnapshotBoardBlockTextStyledProps>`
   position: absolute;
   z-index: 3;
   top: 0;
@@ -60,17 +62,25 @@ export const SnapshotBoardBlockText = styled("div")<SnapshotBoardBlockTextStyled
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-weight: ${(props) => props.styles?.fontWeight ?? props.theme.block?.fontWeight ?? "500"};
-  background-color: ${(props) => props.styles?.backgroundColor ?? props.theme.block?.backgroundColor};
+  font-weight: ${(props) =>
+    props.styles?.fontWeight ?? props.theme.block?.fontWeight ?? "500"};
+  background-color: ${(props) =>
+    props.styles?.backgroundColor ?? props.theme.block?.backgroundColor};
   color: ${(props) => props.styles?.color ?? props.theme.block?.color};
   font-family: ${(props) => props.theme.block?.fontFamily};
-  text-shadow: ${(props) =>  props.styles?.textShadow ?? props.theme.block?.textShadow ?? "none"};
-  font-size: ${(props) => props.styles?.fontSize ?? props.theme.block?.fontSize};
+  text-shadow: ${(props) =>
+    props.styles?.textShadow ?? props.theme.block?.textShadow ?? "none"};
+  font-size: ${(props) =>
+    props.styles?.fontSize ?? props.theme.block?.fontSize};
+  pointer-events: none;
 `;
 
-export const SnapshotBoardBlockTextContent =  styled("div")<SnapshotBoardBlockTextStyledProps>`
+export const SnapshotBoardBlockTextContent = styled(
+  "div"
+)<SnapshotBoardBlockTextStyledProps>`
   flex-grow: 1;
   justify-content: center;
   display: flex;
-  align-items: ${(props) => getStyle("valign", props.styles?.valign) ?? "center"};
+  align-items: ${(props) =>
+    getStyle("valign", props.styles?.valign) ?? "center"};
 `;
