@@ -15,10 +15,10 @@ import {
   arrayBufferToBuffer,
 } from "./utils";
 
-const AWS_S3_ACCESS_KEY = process.env.AWS_S3_ACCESS_KEY!;
-const AWS_S3_SECRET_KEY = process.env.AWS_S3_SECRET_KEY!;
-const AWS_S3_BUCKET_REGION = process.env.AWS_S3_BUCKET_REGION;
-const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME!;
+const AWS_S3_ACCESS_KEY = process.env.S3_ACCESS_KEY!;
+const AWS_S3_SECRET_KEY = process.env.S3_SECRET_KEY!;
+const AWS_S3_BUCKET_REGION = process.env.S3_BUCKET_REGION;
+const AWS_S3_BUCKET_NAME = process.env.S3_BUCKET_NAME!;
 const AWS_S3_BUCKET_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL!;
 
 const SCREENSHOT_API_URL = process.env.SCREENSHOT_API_URL!;
