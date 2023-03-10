@@ -10,15 +10,25 @@ export const Page = styled.div`
 
 export const Banner = styled.div`
   width: 100%;
-  padding: 1rem;
   box-sizing: border-box;
   text-align: center;
   background-color: #ce100f;
   color: #fff;
   font-size: 1.4rem;
+  height: 3rem;
+  p {
+    padding: 0;
+    line-height: 3rem;
+    margin: 0 auto;
+  }
   a {
     color: #fff;
     font-weight: bold;
+  }
+  @media (max-width: ${(props) => props.theme.breakpoints?.mobile}) {
+    p {
+      max-width: 70%;
+    }
   }
 `;
 

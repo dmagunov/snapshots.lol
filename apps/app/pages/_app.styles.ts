@@ -40,23 +40,23 @@ const editorPeerStyles = editorPeersSelectionColors.map((color, index) => {
 export default createGlobalStyle`
   ${normalize}
   
-  html, body, #__next {
-      height: 100%;
-      width: 100%;
-  }
   html {
     font-size: 62.5%;
     scroll-behavior: smooth;
+    height: 100%;
   }
   body {
       margin: 0;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      overflow-y: overlay;
-      overscroll-behavior-y: none;
+      min-height: 100svh;
+      height: 100%;
       background-color: #490043;
       font-family: "IBM Plex Sans", sans-serif;
+  }
+  #__next {
+    width: 100%;
+    height: 100%;
   }
   a, img {
       user-select: none; 

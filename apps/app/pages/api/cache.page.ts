@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { provider } from "lib/wagmiClient";
-import Ajv from "ajv"
+import Ajv from "ajv";
 
 import API from "lib/api";
 import { META_JSON_SCHEMA } from "lib/snapshot";
@@ -12,13 +12,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  
   if (req.method !== "POST") {
     return res.status(500);
   }
 
   try {
-    const { snapshotId, chainId }: { snapshotId: string; chainId: number } = JSON.parse(req.body);
+    const { snapshotId, chainId }: { snapshotId: string; chainId: number } =
+      JSON.parse(req.body);
 
     if (await API.getSnapshotMeta(snapshotId)) {
       throw new Error("Snapshot already exists");
@@ -40,6 +40,7 @@ export default async function handler(
     if (!snapshotMetaResponse.ok) {
       throw new Error("Could not fetch snapshot meta");
     }
+
     let snapshotMeta = await snapshotMetaResponse.text();
 
     const ajv = new Ajv({ strict: false });
@@ -49,10 +50,7 @@ export default async function handler(
       throw new Error("Invalid meta");
     }
 
-    await API.saveSnapshotMeta(
-      snapshotId,
-      snapshotMeta
-    );
+    await API.saveSnapshotMeta(snapshotId, snapshotMeta);
 
     await res.revalidate(`/${snapshotId}`);
 
@@ -60,7 +58,6 @@ export default async function handler(
       success: true,
     });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error });
   }
 }
