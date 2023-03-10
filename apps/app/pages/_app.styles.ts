@@ -52,7 +52,7 @@ export default createGlobalStyle`
       margin: 0;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
+      min-height: 100svh;
       overflow-y: overlay;
       overscroll-behavior-y: none;
       background-color: #490043;
