@@ -150,8 +150,8 @@ export default function SnapshotEditorComponent({
           <GesturesWrapper
             scale={isMobile ? 0.7 : 1}
             zIndex={4}
-            top={isMobile ? `calc(95% - 8rem)` : `calc(50% - 6.5rem)`}
-            left={isMobile ? `calc(90% - 10rem)` : `calc(50% - 6.5rem)`}
+            top={isMobile ? `calc(100% - 11.5rem)` : `calc(50% - 6.5rem)`}
+            left={isMobile ? `calc(100% - 11rem)` : `calc(50% - 6.5rem)`}
           >
             <MintButton disabled={!isValid} onClick={() => setMint(true)} />
           </GesturesWrapper>
@@ -161,8 +161,8 @@ export default function SnapshotEditorComponent({
           <GesturesWrapper
             scale={0.7}
             zIndex={4}
-            top={`calc(95% - 8rem)`}
-            left={`calc(90% - 21rem)`}
+            top={`calc(100% - 20rem)`}
+            left={`calc(100% - 11rem)`}
           >
             <EditButton
               color={viewState === VIEW_STATE_EDITOR ? "blue" : "green"}
