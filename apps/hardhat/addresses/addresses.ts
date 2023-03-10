@@ -2,8 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { ContractAddresses_5 } from './5'
-export type ContractAddressesKey = keyof typeof ContractAddresses
+import { ContractAddresses_31337 } from "./31337";
+import { ContractAddresses_5 } from "./5";
+export type ContractAddressesKey = keyof typeof ContractAddresses;
 export const ContractAddresses = {
-  5: ContractAddresses_5
-}
+  31337: ContractAddresses_31337,
+  5: ContractAddresses_5,
+};
