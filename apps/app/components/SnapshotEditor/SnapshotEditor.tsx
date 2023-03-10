@@ -107,10 +107,19 @@ export default function SnapshotEditorComponent({
   return (
     <Page>
       <Banner>
-        Welcome to Snapshots.lol demo! If you&apos;re expecting everything to
-        work perfectly, you might be in the wrong place. Want to dive in anyway,
-        head to our&nbsp;
-        <a href="https://github.com/dmagunov/snapshots.lol">Github</a>
+        {isMobile ? (
+          <p>
+            Welcome to Snapshots.lol demo!{" "}
+            <a href="https://github.com/dmagunov/snapshots.lol">Github</a>
+          </p>
+        ) : (
+          <p>
+            Welcome to Snapshots.lol demo! If you&apos;re expecting everything
+            to work perfectly, you might be in the wrong place. Want to dive in
+            anyway, head to our&nbsp;
+            <a href="https://github.com/dmagunov/snapshots.lol">Github</a>
+          </p>
+        )}
       </Banner>
       <Container>
         <CodeContainer
