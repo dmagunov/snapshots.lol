@@ -232,6 +232,7 @@ export default function SnapshotEditorComponent({
             {/* How to create a Snapshot video */}
 
             <p>
+              ⛏️{" "}
               <a
                 href="https://snapshots.lol"
                 target="_blank"
@@ -240,7 +241,7 @@ export default function SnapshotEditorComponent({
               >
                 Dig Deeper
               </a>{" "}
-              👉👉🏻👉🏼👉🏽👉🏾👉🏿
+              ⛏️
             </p>
           </Dialog>
         )}
