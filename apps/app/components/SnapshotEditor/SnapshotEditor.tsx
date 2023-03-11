@@ -146,23 +146,12 @@ export default function SnapshotEditorComponent({
           <Snapshot snapshot={snapshot} updateTheme={updateTheme} />
         </PreviewContainer>
 
-        {isClient && (
-          <GesturesWrapper
-            scale={isMobile ? 0.7 : 1}
-            zIndex={4}
-            top={isMobile ? `calc(100% - 11.5rem)` : `calc(50% - 6.5rem)`}
-            left={isMobile ? `calc(100% - 11rem)` : `calc(50% - 6.5rem)`}
-          >
-            <MintButton disabled={!isValid} onClick={() => setMint(true)} />
-          </GesturesWrapper>
-        )}
-
         {isMobile && (
           <GesturesWrapper
-            scale={0.7}
+            scale={0.6}
             zIndex={4}
-            top={`calc(100% - 20rem)`}
-            left={`calc(100% - 11rem)`}
+            top={`calc(100% - 25em)`}
+            left={`calc(100% - 12.5rem)`}
           >
             <EditButton
               color={viewState === VIEW_STATE_EDITOR ? "blue" : "green"}
@@ -195,6 +184,17 @@ export default function SnapshotEditorComponent({
                 />
               )}
             </EditButton>
+          </GesturesWrapper>
+        )}
+
+        {isClient && (
+          <GesturesWrapper
+            scale={isMobile ? 0.6 : 1}
+            zIndex={4}
+            top={isMobile ? `calc(100% - 17rem)` : `calc(50% - 6.5rem)`}
+            left={isMobile ? `calc(100% - 12.5rem)` : `calc(50% - 6.5rem)`}
+          >
+            <MintButton disabled={!isValid} onClick={() => setMint(true)} />
           </GesturesWrapper>
         )}
 
