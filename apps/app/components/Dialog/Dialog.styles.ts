@@ -38,9 +38,16 @@ export const CloseButton = styled.button`
   border: none;
   background: transparent;
   outline: none;
+  color: #000;
   font-size: 3rem;
+  box-sizing: border-box;
   font-weight: 600;
   cursor: pointer;
+  @media (max-width: ${(props) => props.theme.breakpoints?.mobile}) {
+    right: 0rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 `;
 
 export const DialogContentFrame = styled.div`
