@@ -1,10 +1,16 @@
 import chrome from "chrome-aws-lambda";
 import puppeteer from "puppeteer-core";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const SCREENSHOT_WIDTH = 1600;
 const SCREENSHOT_HEIGHT = 1200;
 const ALLOWED_HOST = process.env.ALLOWED_HOST || "thenftsnapshot";
 const WAIT_FOR_DOM_TIMEOUT_SEC = process.env.WAIT_FOR_DOM_TIMEOUT_SEC || 30000;
+
+const AWS_S3_ACCESS_KEY = process.env.AWS_S3_ACCESS_KEY;
+const AWS_S3_SECRET_KEY = process.env.AWS_S3_SECRET_KEY;
+const AWS_S3_BUCKET_REGION = process.env.AWS_S3_BUCKET_REGION;
+const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 
 const handler = async (event) => {
   let body = event.body ? JSON.parse(event.body) : event;
@@ -13,7 +19,12 @@ const handler = async (event) => {
     width = SCREENSHOT_WIDTH,
     height = SCREENSHOT_HEIGHT,
     waitForDom,
+    key,
   } = body;
+
+  if (!key) {
+    throw new Error("Missing key");
+  }
 
   try {
     url = new URL(body.url);
@@ -62,12 +73,27 @@ const handler = async (event) => {
   await page.close();
   await browser.close();
 
-  // NEXT: Find the way in dev mode to override the response headers
+  const s3Client = new S3Client({
+    region: AWS_S3_BUCKET_REGION,
+    credentials: {
+      accessKeyId: AWS_S3_ACCESS_KEY,
+      secretAccessKey: AWS_S3_SECRET_KEY,
+    },
+  });
+
+  const command = new PutObjectCommand({
+    Bucket: AWS_S3_BUCKET_NAME,
+    Key: key,
+    Body: buffer,
+    ContentType: "image/png",
+  });
+
+  await s3Client.send(command);
+
   return {
-    headers: { "Content-Type": "image/png" },
+    headers: { "Content-Type": "application/json" },
     statusCode: 200,
-    body: buffer.toString("base64"),
-    isBase64Encoded: true,
+    body: { success: true },
   };
 };
 
