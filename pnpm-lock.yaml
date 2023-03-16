@@ -163,9 +163,11 @@ importers:
 
   apps/screenshot:
     specifiers:
+      '@aws-sdk/client-s3': ^3.282.0
       chrome-aws-lambda: 10.1.0
       puppeteer-core: ^10.1.0
     dependencies:
+      '@aws-sdk/client-s3': 3.282.0
       chrome-aws-lambda: 10.1.0_puppeteer-core@10.4.0
       puppeteer-core: 10.4.0
 
