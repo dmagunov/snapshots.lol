@@ -7,10 +7,10 @@ declare global {
   }
 }
 
-Array.prototype.findBy = function(key, value) {
+Array.prototype.findBy = function (key, value) {
   return this && this.find((item) => item[key] === value);
 };
-Array.prototype.filterBy = function(key, value) {
+Array.prototype.filterBy = function (key, value) {
   return this && this.filter((item) => item[key] === value);
 };
 
@@ -24,22 +24,6 @@ const bufferToBase64 = (buf: Buffer | Uint8Array): string => {
 
 const base64ToBuffer = (base64: string): Uint8Array | Buffer => {
   return Buffer.from(base64, "base64");
-};
-
-const bufferToArrayBuffer = (buffer: Buffer): ArrayBuffer => {
-  return buffer.buffer.slice(
-    buffer.byteOffset,
-    buffer.byteOffset + buffer.byteLength
-  );
-};
-
-const arrayBufferToBuffer = (buffer: ArrayBuffer): Buffer => {
-  return Buffer.from(new Uint8Array(buffer));
-};
-
-const blobToBuffer = async (blob: Blob): Promise<Buffer> => {
-  let arrayBuffer = await blob.arrayBuffer();
-  return Buffer.from(arrayBuffer);
 };
 
 const getObjectValue = (obj: object, path: string): any => {
@@ -57,12 +41,4 @@ const getObjectValue = (obj: object, path: string): any => {
   return value;
 };
 
-export {
-  isUrl,
-  bufferToBase64,
-  base64ToBuffer,
-  bufferToArrayBuffer,
-  arrayBufferToBuffer,
-  blobToBuffer,
-  getObjectValue,
-};
+export { isUrl, bufferToBase64, base64ToBuffer, getObjectValue };
