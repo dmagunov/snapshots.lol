@@ -19,7 +19,6 @@
     "@thenftsnapshot/hardhat": "workspace:*",
     "@thenftsnapshot/themes": "workspace:*",
     "@use-gesture/react": "^10.2.24",
-    "@web-std/blob": "^3.0.4",
     "ajv": "^8.12.0",
     "ethers": "^5.7.2",
     "jsonata": "^2.0.2",
