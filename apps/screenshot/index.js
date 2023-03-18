@@ -5,7 +5,8 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 const SCREENSHOT_WIDTH = 1600;
 const SCREENSHOT_HEIGHT = 1200;
 const ALLOWED_HOST = process.env.ALLOWED_HOST || "thenftsnapshot";
-const WAIT_FOR_DOM_TIMEOUT_SEC = process.env.WAIT_FOR_DOM_TIMEOUT_SEC || 30000;
+const WAIT_FOR_DOM_TIMEOUT_SEC =
+  parseInt(process.env.WAIT_FOR_DOM_TIMEOUT_SEC, 10) || 30000;
 
 const AWS_S3_ACCESS_KEY = process.env.AWS_S3_ACCESS_KEY;
 const AWS_S3_SECRET_KEY = process.env.AWS_S3_SECRET_KEY;
@@ -19,10 +20,10 @@ const handler = async (event) => {
     width = SCREENSHOT_WIDTH,
     height = SCREENSHOT_HEIGHT,
     waitForDom,
-    key,
+    key: s3ObjectKey,
   } = body;
 
-  if (!key) {
+  if (!s3ObjectKey) {
     throw new Error("Missing key");
   }
 
@@ -83,7 +84,7 @@ const handler = async (event) => {
 
   const command = new PutObjectCommand({
     Bucket: AWS_S3_BUCKET_NAME,
-    Key: key,
+    Key: s3ObjectKey,
     Body: buffer,
     ContentType: "image/png",
   });
