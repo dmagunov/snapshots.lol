@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Snapshot as SnapshotType } from "types";
 
-import Ajv from "ajv"
+import Ajv from "ajv";
 
 import API from "lib/api";
 import { SNAPSHOT_JSON_SCHEMA } from "lib/snapshot";
@@ -12,7 +12,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   if (req.method !== "POST") {
     return res.status(500);
   }
@@ -32,10 +31,12 @@ export default async function handler(
     }
 
     await API.saveSnapshot(snapshot.id, JSON.stringify(snapshot));
-    let screenshot = await API.createSnapshotScreenshot(snapshot.id, `${SNAPSHOT_PREVIEW_URL_PREFIX}/${snapshot.id}`);
-    return res.status(200).json({ screenshot });
+    let screenshotUrl = await API.createSnapshotScreenshot(
+      snapshot.id,
+      `${SNAPSHOT_PREVIEW_URL_PREFIX}/${snapshot.id}`
+    );
+    return res.status(200).json({ screenshotUrl });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error });
-  } 
+    return res.status(500).json({ error: error.message });
+  }
 }

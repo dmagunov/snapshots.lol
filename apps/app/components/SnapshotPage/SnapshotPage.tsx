@@ -1,8 +1,6 @@
-
 import type { Snapshot as SnapshotType } from "types";
-import type { Theme } from "@thenftsnapshot/themes"
+import type { Theme } from "@thenftsnapshot/themes";
 
-import API from "lib/api";
 import ToolBar from "components/ToolBar/ToolBar";
 import PageMeta from "components/PageMeta/PageMeta";
 import Snapshot from "components/Snapshot/Snapshot";
@@ -16,21 +14,19 @@ type SnapshotPageComponentProps = {
   updateTheme: (theme: Theme) => void;
 };
 
-export default function SnapshotPageComponent({snapshot, updateTheme}: SnapshotPageComponentProps) {
-  const snapshotImageUrl = API.getSnapshotScreenshotUrl(snapshot.id);
-
+export default function SnapshotPageComponent({
+  snapshot,
+  updateTheme,
+}: SnapshotPageComponentProps) {
   return (
     <>
       <PageMeta
         title={snapshot.name}
         description={snapshot.description}
         url={snapshot.url}
-        image={snapshotImageUrl}
+        image={snapshot.image}
       />
-      <Snapshot
-        snapshot={snapshot}
-        updateTheme={updateTheme}
-      />
+      <Snapshot snapshot={snapshot} updateTheme={updateTheme} />
       <ToolBar>
         <ShareButton title={snapshot.name} url={snapshot.url} />
 

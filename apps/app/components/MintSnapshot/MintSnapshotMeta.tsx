@@ -32,7 +32,7 @@ export default function MintSnapshotMetaComponent({
       onSuccess(data.url);
     }
   }, [data]);
-  
+
   useEffect(() => {
     if (error) {
       onError(error);

@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { Snapshot as SnapshotType } from "types";
 
 import { provider } from "lib/wagmiClient";
 import Ajv from "ajv";
 
 import API from "lib/api";
-import { META_JSON_SCHEMA } from "lib/snapshot";
+import { META_JSON_SCHEMA, toMetaFromSnapshot } from "lib/snapshot";
 import { TheNFTSnapshot__factory } from "@thenftsnapshot/hardhat/typechain";
 import { ContractAddresses } from "@thenftsnapshot/hardhat/addresses/addresses";
 
@@ -36,12 +37,11 @@ export default async function handler(
       throw new Error("Snapshot not found");
     }
 
-    let snapshotMetaResponse = await fetch(snapshotMetaUrl);
-    if (!snapshotMetaResponse.ok) {
-      throw new Error("Could not fetch snapshot meta");
-    }
-
-    let snapshotMeta = await snapshotMetaResponse.text();
+    // Pinata public gateway is not reliable, temporary using preview metadata from S3
+    let snapshot = (await API.getSnapshot(
+      snapshotId
+    )) as unknown as SnapshotType;
+    let snapshotMeta = await toMetaFromSnapshot(snapshot);
 
     const ajv = new Ajv({ strict: false });
     const validate = ajv.compile(META_JSON_SCHEMA);
@@ -58,6 +58,6 @@ export default async function handler(
       success: true,
     });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 }

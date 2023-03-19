@@ -20,7 +20,7 @@ export default async function handler(
       throw new Error("Snapshot already exists");
     }
 
-    let snapshotStream = await API.getSnapshotScreenshot(snapshot.id);
+    let snapshotStream = await API.getSnapshotScreenshot(snapshot.image);
     let screenshotIpfsHash = await IPFS.storeSnapshotScreensot(
       snapshot.id,
       snapshotStream
@@ -33,6 +33,7 @@ export default async function handler(
       JSON.parse(snapshotMeta)
     );
 
+    // overwrite snapshot meta with IPFS hash
     await API.saveSnapshot(snapshot.id, JSON.stringify(snapshot));
 
     // NEXT: Clone screenshot and meta in the S3 bucket under ${hash}.png and ${hash}.json and update json to point to S3?
@@ -40,6 +41,6 @@ export default async function handler(
       url: IPFS.getFileUrl(metaIpfsHash),
     });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 }

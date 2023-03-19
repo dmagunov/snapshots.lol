@@ -19,7 +19,6 @@ const CACHE_FOLDER = "cache";
 const PREVIEW_FOLDER = "preview";
 const META_FILE_NAME = "meta.json";
 const SNAPSHOT_FILE_NAME = "snapshot.json";
-const SCREENSHOT_FILE_NAME = "image.png";
 
 export default class API {
   static takeSnapshotScreenshot(key: string, url: string): void {
@@ -37,25 +36,15 @@ export default class API {
     snapshotId: string,
     snapshotUrl: string
   ): string {
-    let key = `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`;
+    let key = `${PREVIEW_FOLDER}/${snapshotId}/image-${Date.now()}.png`;
     API.takeSnapshotScreenshot(key, snapshotUrl);
     return S3.getObjectUrl(key);
   }
 
-  static getSnapshotScreenshotUrl(snapshotId: string): string {
-    return S3.getObjectUrl(
-      `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
-    );
-  }
-
   static async getSnapshotScreenshot(
-    snapshotId: string
+    snapshotImageUrl: string
   ): Promise<ReadableStream<Uint8Array> | null> {
-    let url = S3.getObjectUrl(
-      `${PREVIEW_FOLDER}/${snapshotId}/${SCREENSHOT_FILE_NAME}`
-    );
-
-    let response = await fetch(url);
+    let response = await fetch(snapshotImageUrl);
     return response.body;
   }
 
