@@ -16,7 +16,7 @@ const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const handler = async (event) => {
   let body = event.body ? JSON.parse(event.body) : event;
   let {
-    url,
+    url: pageUrl,
     width = SCREENSHOT_WIDTH,
     height = SCREENSHOT_HEIGHT,
     waitForDom,
@@ -27,18 +27,11 @@ const handler = async (event) => {
     throw new Error("Missing key");
   }
 
-  try {
-    url = new URL(body.url);
-    console.log(`Check ${url} against allowed`);
+  console.log(`Check ${url} against allowed`);
+  let url = new URL(pageUrl);
 
-    if (url.host.indexOf(ALLOWED_HOST) === -1) {
-      throw new Error("Not allowed");
-    }
-  } catch (e) {
-    return {
-      statusCode: 403,
-      body: "Forbidden",
-    };
+  if (url.host.indexOf(ALLOWED_HOST) === -1) {
+    throw new Error("Host is not allowed");
   }
 
   console.log(`Creating snapshot of ${url}`);
@@ -89,6 +82,7 @@ const handler = async (event) => {
     ContentType: "image/png",
   });
 
+  console.log("Put object to S3");
   await s3Client.send(command);
 
   return {

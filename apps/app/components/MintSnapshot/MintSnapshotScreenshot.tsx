@@ -22,7 +22,8 @@ interface ImageWithRetryComponentProps
   src: string;
   maxRetries?: number;
   retryDelay?: number;
-  onSuccess?: () => void;
+  onError: () => void;
+  onLoad: () => void;
 }
 
 export default function MintSnapshotScreenshotComponent({
@@ -44,6 +45,15 @@ export default function MintSnapshotScreenshotComponent({
     }
   }, [error]);
 
+  function handleSuccess(data) {
+    setIsLoaded(true);
+    onSuccess(data);
+  }
+
+  function handleError() {
+    onError("Could not load image");
+  }
+
   return (
     <>
       {!isLoaded && children}
@@ -54,10 +64,10 @@ export default function MintSnapshotScreenshotComponent({
             src={data.screenshotUrl}
             maxRetries={5}
             retryDelay={1000}
-            onSuccess={() => {
-              setIsLoaded(true);
-              onSuccess(data);
+            onLoad={() => {
+              handleSuccess(data);
             }}
+            onError={handleError}
           />
         </picture>
       )}
@@ -69,7 +79,8 @@ function ImageWithRetry({
   src,
   maxRetries = 3,
   retryDelay = 1000,
-  onSuccess,
+  onLoad,
+  onError,
   ...props
 }: ImageWithRetryComponentProps) {
   const [retryCount, setRetryCount] = useState(0);
@@ -80,12 +91,17 @@ function ImageWithRetry({
       setTimeout(() => {
         setRetryCount(retryCount + 1);
       }, nextDelay);
+      return;
+    }
+
+    if (onError) {
+      onError();
     }
   }
 
   function handleImageLoad() {
-    if (onSuccess) {
-      onSuccess();
+    if (onLoad) {
+      onLoad();
     }
   }
 
