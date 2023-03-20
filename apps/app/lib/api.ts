@@ -14,6 +14,7 @@ const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME!;
 const AWS_S3_BUCKET_URL = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL!;
 
 const SCREENSHOT_API_URL = process.env.SCREENSHOT_API_URL!;
+const SCREENSHOT_API_FETCH_TIMEOUT = 2000;
 
 const CACHE_FOLDER = "cache";
 const PREVIEW_FOLDER = "preview";
@@ -21,23 +22,23 @@ const META_FILE_NAME = "meta.json";
 const SNAPSHOT_FILE_NAME = "snapshot.json";
 
 export default class API {
-  static takeSnapshotScreenshot(key: string, url: string): void {
-    // do not wait for completion, just run
+  static async createSnapshotScreenshot(
+    snapshotId: string,
+    snapshotUrl: string
+  ): Promise<string> {
+    let key = `${PREVIEW_FOLDER}/${snapshotId}/image-${Date.now()}.png`;
+
     fetch(SCREENSHOT_API_URL, {
       method: "POST",
       body: JSON.stringify({
         key,
-        url,
+        url: snapshotUrl,
       }),
     });
-  }
 
-  static createSnapshotScreenshot(
-    snapshotId: string,
-    snapshotUrl: string
-  ): string {
-    let key = `${PREVIEW_FOLDER}/${snapshotId}/image-${Date.now()}.png`;
-    API.takeSnapshotScreenshot(key, snapshotUrl);
+    await new Promise((resolve) =>
+      setTimeout(resolve, SCREENSHOT_API_FETCH_TIMEOUT)
+    );
     return S3.getObjectUrl(key);
   }
 
