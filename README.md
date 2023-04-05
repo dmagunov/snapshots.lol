@@ -14,7 +14,7 @@
 
 ## About The Project
 
-They say art is a solitary pursuit... but who wants to be alone when you can be surrounded by other people's bad ideas? That's the inspiration behind Snapshots.lol, a project that encourages collaboration, experimentation, and a total disregard for "good taste" - because let's face it, good taste is so overrated.
+They say art is a solitary pursuit... but who wants to be alone when you can be surrounded by other people's ideas? That's the inspiration behind Snapshots.lol, a project that encourages collaboration and experimentation.
 
 ## Built With
 
