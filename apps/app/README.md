@@ -1,10 +1,8 @@
-# Snapshots.LOL app
+# Snapshots.lol
 
-The Snapshots.LOL app is the main application in this monorepo and is built using Next.js. The app is designed to allow users to create and share NFT snapshots easily.
+The Snapshots.lol main app, built with Next.js.
 
-### Built With
-
-Some of technologies have been used:
+### Libraries used
 
 - [Monaco Editor](https://github.com/microsoft/monaco-editor): a code editor that powers VS Code. It has been integrated into the project to allow users to edit and create NFT snapshots.
 - [Yjs](https://github.com/yjs/yjs): a CRDT (conflict-free replicated data type) framework that provides a powerful abstraction of shared data. It has been used to enable collaborative editing and real-time synchronization of snapshot data.
