@@ -190,7 +190,7 @@ export default function SnapshotEditorComponent({
         {isClient && (
           <GesturesWrapper
             scale={isMobile ? 0.6 : 1}
-            zIndex={4}
+            zIndex={12}
             top={isMobile ? `calc(100% - 17rem)` : `calc(50% - 6.5rem)`}
             left={isMobile ? `calc(100% - 12.5rem)` : `calc(50% - 6.5rem)`}
           >
