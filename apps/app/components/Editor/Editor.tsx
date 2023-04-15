@@ -17,7 +17,6 @@ export type onEditorMount = (
 ) => void;
 
 type EditorProps = {
-  defaultValue?: string;
   width?: string;
   height?: string;
   onMount: onEditorMount;
@@ -25,7 +24,6 @@ type EditorProps = {
 };
 
 export default function Editor({
-  defaultValue,
   onMount,
   onValidate,
   width,
@@ -78,7 +76,6 @@ export default function Editor({
       height={height}
       theme="vs-dark"
       defaultLanguage="json"
-      defaultValue={defaultValue}
       onMount={onEditorMount}
     />
   );
