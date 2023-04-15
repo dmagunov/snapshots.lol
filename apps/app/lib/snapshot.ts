@@ -3,7 +3,7 @@ import type { Snapshot as SnapshotType } from "types";
 import * as Y from "yjs";
 import jsonata from "jsonata";
 
-import { THEME_JSON_SCHEMA, THEMES } from "@thenftsnapshot/themes"
+import { THEME_JSON_SCHEMA, THEMES } from "@thenftsnapshot/themes";
 import { bufferToBase64, getObjectValue } from "./utils";
 
 // NEXT: Versioning
@@ -15,9 +15,7 @@ const META_BOARD_ROWS_LABEL = "Board size, rows";
 const META_BLOCK_WIDTH_LABEL = "Block width (px)";
 const META_BLOCK_HEIGHT_LABEL = "Block height (px)";
 
-const TYPES = [
-  "Collage"
-];
+const TYPES = ["Collage"];
 
 const STYLES_MAPPINGS = {
   valign: {
@@ -28,8 +26,8 @@ const STYLES_MAPPINGS = {
   align: {
     left: "left",
     center: "center",
-    right: "right"
-  }
+    right: "right",
+  },
 };
 
 const META_FORMAT = `{
@@ -93,50 +91,48 @@ const SNAPSHOT_FORMAT = `{
 }`;
 
 export const META_SAMPLE = {
-  "id": "",
-  "external_url": "",
-  "image": "",
-  "name": "Snapshot Demo",
-  "version": "",
-  "description": "",
-  "theme_styles": {},
-  "attributes": [
+  id: "",
+  external_url: "",
+  image: "",
+  name: "Snapshot Demo",
+  version: "",
+  description: "",
+  theme_styles: {},
+  attributes: [
     {
-      "trait_type": META_THEME_LABEL,
-      "value": "Isometric"
+      trait_type: META_THEME_LABEL,
+      value: "Isometric",
     },
     {
-      "trait_type": META_TYPE_LABEL,
-      "value": "Collage"
+      trait_type: META_TYPE_LABEL,
+      value: "Collage",
     },
     {
-      "trait_type": META_BOARD_COLS_LABEL,
-      "value": 1
+      trait_type: META_BOARD_COLS_LABEL,
+      value: 1,
     },
     {
-      "trait_type": META_BOARD_ROWS_LABEL,
-      "value": 1
+      trait_type: META_BOARD_ROWS_LABEL,
+      value: 1,
     },
     {
-      "trait_type": META_BLOCK_WIDTH_LABEL,
-      "value": 300
+      trait_type: META_BLOCK_WIDTH_LABEL,
+      value: 300,
     },
     {
-      "trait_type": META_BLOCK_HEIGHT_LABEL,
-      "value": 300
-    }
+      trait_type: META_BLOCK_HEIGHT_LABEL,
+      value: 300,
+    },
   ],
-  "blocks": [
+  blocks: [
     {
-      "col": 0,
-      "row": 0,
-      "image": "https://thenftsnapshot.s3.us-east-1.amazonaws.com/demo/images/demo.gif",
-      "background": "#fff",
-      "text": "Block 1:1 example",
-      "info": "Tooltip",
-      "url": "https://thenftsnapshot.com"
-    }
-  ]
+      col: 0,
+      row: 0,
+      background: "#000",
+      text: "Block 1:1 example",
+      url: "https://thenftsnapshot.com",
+    },
+  ],
 };
 
 export const META_SAMPLE_ENCODED =
@@ -170,8 +166,7 @@ const SNAPSHOT_BLOCK_JSON_SCHEMA = {
     },
     url: {
       type: "string",
-      pattern:
-        "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$",
+      pattern: "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?$",
       description: "Snapshot block link url",
     },
     youtubeId: {
@@ -198,12 +193,12 @@ const SNAPSHOT_BLOCK_JSON_SCHEMA = {
             align: {
               type: "string",
               description: "Snapshot block text align",
-              enum: Object.keys(STYLES_MAPPINGS.align)
+              enum: Object.keys(STYLES_MAPPINGS.align),
             },
             valign: {
               type: "string",
               description: "Snapshot block text vertical align",
-              enum: Object.keys(STYLES_MAPPINGS.valign)
+              enum: Object.keys(STYLES_MAPPINGS.valign),
             },
             color: {
               type: "string",
@@ -226,11 +221,11 @@ const SNAPSHOT_BLOCK_JSON_SCHEMA = {
             textShadow: {
               type: "string",
               description: "Snapshot block text shadow",
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    },
   },
   required: ["col", "row"],
 };
@@ -238,22 +233,15 @@ const SNAPSHOT_BLOCK_JSON_SCHEMA = {
 export const SNAPSHOT_JSON_SCHEMA = {
   title: "Snapshot",
   type: "object",
-  required: [
-    "id",
-    "name",
-    "theme",
-    "board",
-    "block",
-    "blocks"
-  ],
+  required: ["id", "name", "theme", "board", "block", "blocks"],
   properties: {
     id: {
       type: "string",
-      description: "Alphanumeric unique id"
+      description: "Alphanumeric unique id",
     },
     name: {
       type: "string",
-      description: "Snapshot name"
+      description: "Snapshot name",
     },
     theme: {
       type: "object",
@@ -261,13 +249,13 @@ export const SNAPSHOT_JSON_SCHEMA = {
       properties: {
         name: {
           type: "string",
-          description: "Theme name"
+          description: "Theme name",
         },
         styles: {
-          type: "object"
-        }
+          type: "object",
+        },
       },
-      required: ["name"]
+      required: ["name"],
     },
     board: {
       type: "object",
@@ -280,9 +268,9 @@ export const SNAPSHOT_JSON_SCHEMA = {
         rows: {
           type: "integer",
           description: "Snapshot board rows number",
-        }
+        },
       },
-      required: ["cols", "rows"]
+      required: ["cols", "rows"],
     },
     block: {
       type: "object",
@@ -295,50 +283,46 @@ export const SNAPSHOT_JSON_SCHEMA = {
         height: {
           type: "integer",
           description: "Snapshot block height",
-        }
+        },
       },
-      required: ["width", "height"]
+      required: ["width", "height"],
     },
     blocks: {
       type: "array",
       description: "Snapshot blocks",
-      items: SNAPSHOT_BLOCK_JSON_SCHEMA
-    }
-  }
+      items: SNAPSHOT_BLOCK_JSON_SCHEMA,
+    },
+  },
 };
 
 export const META_JSON_SCHEMA = {
   title: "Snapshot Metadata",
   type: "object",
-  required: [
-    "name",
-    "attributes",
-    "blocks"
-  ],
+  required: ["name", "attributes", "blocks"],
   properties: {
     id: {
       type: "string",
-      description: "Alphanumeric unique id"
+      description: "Alphanumeric unique id",
     },
     name: {
       type: "string",
-      description: "Snapshot name"
+      description: "Snapshot name",
     },
     version: {
       type: "string",
-      description: "Snapshot engine version, default is 0.0.1"
+      description: "Snapshot engine version, default is 0.0.1",
     },
     external_url: {
       type: "string",
-      description: "Snapshot url"
+      description: "Snapshot url",
     },
     image: {
       type: "string",
-      description: "Snapshot image url"
+      description: "Snapshot image url",
     },
     description: {
       type: "string",
-      description: "Snapshot description"
+      description: "Snapshot description",
     },
     theme_styles: THEME_JSON_SCHEMA,
     attributes: {
@@ -355,48 +339,45 @@ export const META_JSON_SCHEMA = {
               META_BOARD_COLS_LABEL,
               META_BOARD_ROWS_LABEL,
               META_BLOCK_WIDTH_LABEL,
-              META_BLOCK_HEIGHT_LABEL
-            ]
+              META_BLOCK_HEIGHT_LABEL,
+            ],
           },
           value: {
-            type: [
-              "string",
-              "number"
-            ]
-          }
+            type: ["string", "number"],
+          },
         },
         allOf: [
-          { 
+          {
             if: {
               properties: {
                 trait_type: {
-                  const: META_THEME_LABEL
-                }
-              }
+                  const: META_THEME_LABEL,
+                },
+              },
             },
             then: {
               properties: {
                 value: {
-                  enum: THEMES
-                }
-              }
-            }
+                  enum: THEMES,
+                },
+              },
+            },
           },
           {
             if: {
               properties: {
                 trait_type: {
-                  const: META_TYPE_LABEL
-                }
-              }
+                  const: META_TYPE_LABEL,
+                },
+              },
             },
             then: {
               properties: {
                 value: {
-                  enum: TYPES
-                }
-              }
-            }
+                  enum: TYPES,
+                },
+              },
+            },
           },
           {
             if: {
@@ -406,30 +387,28 @@ export const META_JSON_SCHEMA = {
                     META_BOARD_COLS_LABEL,
                     META_BOARD_ROWS_LABEL,
                     META_BLOCK_WIDTH_LABEL,
-                    META_BLOCK_HEIGHT_LABEL
-                  ]
-                }
-              }
+                    META_BLOCK_HEIGHT_LABEL,
+                  ],
+                },
+              },
             },
             then: {
               properties: {
                 value: {
-                  type: [
-                    "integer"
-                  ]
-                }
-              }
-            }
-          }
-        ]
-      }
+                  type: ["integer"],
+                },
+              },
+            },
+          },
+        ],
+      },
     },
     blocks: {
       type: "array",
       description: "Snapshot blocks",
-      items:  SNAPSHOT_BLOCK_JSON_SCHEMA 
-    }
-  }
+      items: SNAPSHOT_BLOCK_JSON_SCHEMA,
+    },
+  },
 };
 
 // NEXT: move to bin
@@ -440,7 +419,9 @@ export function createSnapshotTemplate(meta) {
   return bufferToBase64(template);
 }
 
-export async function toMetaFromSnapshot(snapshot: SnapshotType): Promise<string|null> {
+export async function toMetaFromSnapshot(
+  snapshot: SnapshotType
+): Promise<string | null> {
   try {
     const expression = jsonata(META_FORMAT);
     let meta = await expression.evaluate(snapshot);
@@ -450,7 +431,9 @@ export async function toMetaFromSnapshot(snapshot: SnapshotType): Promise<string
   }
 }
 
-export async function fromMetaToSnapshot(meta: JSON | Object): Promise<SnapshotType> {
+export async function fromMetaToSnapshot(
+  meta: JSON | Object
+): Promise<SnapshotType> {
   try {
     const expression = jsonata(SNAPSHOT_FORMAT);
     return await expression.evaluate(meta);
@@ -464,7 +447,7 @@ export function getSnapshotIdFromUrl(): string {
   return window.location.pathname.replace("/", "");
 }
 
-export const getStyle = function(...args: string[]): string|undefined {
+export const getStyle = function (...args: string[]): string | undefined {
   let value = Array.from(args).join(".");
   return getObjectValue(STYLES_MAPPINGS, value);
 };
