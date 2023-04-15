@@ -242,6 +242,7 @@ export default class MonacoBinding {
 
     ytext.observe(this._ytextObserver);
     monacoModel.setValue(ytext.toString());
+    monacoModel.setEOL(monaco.editor.EndOfLineSequence.CRLF);
 
     this._monacoChangeHandler = monacoModel.onDidChangeContent((event: any) => {
       // Apply changes from right to left
@@ -273,6 +274,7 @@ export default class MonacoBinding {
           }
           let anchor = monacoModel.getOffsetAt(sel.getStartPosition());
           let head = monacoModel.getOffsetAt(sel.getEndPosition());
+
           if (sel.getDirection() === monaco.SelectionDirection.RTL) {
             const tmp = anchor;
             anchor = head;

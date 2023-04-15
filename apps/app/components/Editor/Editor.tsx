@@ -1,8 +1,15 @@
 import React, { useCallback } from "react";
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor, { loader } from "@monaco-editor/react";
 import * as Monaco from "monaco-editor/esm/vs/editor/editor.api";
-
 import { META_JSON_SCHEMA } from "lib/snapshot";
+
+const MONACO_EDITOR_VERSION = "0.37.1";
+
+loader.config({
+  paths: {
+    vs: `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_EDITOR_VERSION}/min/vs`,
+  },
+});
 
 export type onEditorMount = (
   editor: Monaco.editor.ICodeEditor,
@@ -38,8 +45,10 @@ export default function Editor({
       });
 
       const setModelMarkers = monaco.editor.setModelMarkers;
+      const model = editor.getModel();
+      model.setEOL(monaco.editor.EndOfLineSequence.CRLF);
 
-      monaco.editor.setModelMarkers = function(model, owner, markers) {
+      monaco.editor.setModelMarkers = function (model, owner, markers) {
         setModelMarkers.call(monaco.editor, model, owner, markers);
         onValidate(editor.getValue(), markers.length === 0);
       };
@@ -57,9 +66,12 @@ export default function Editor({
         autoClosingQuotes: "always",
         formatOnPaste: true,
         formatOnType: true,
-        scrollBeyondLastLine: false,
+        scrollBeyondLastLine: true,
         minimap: {
           enabled: false,
+        },
+        padding: {
+          bottom: 30,
         },
       }}
       width={width}
