@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.282.0",
-    "@monaco-editor/react": "^4.4.5",
+    "@monaco-editor/react": "^4.5.0",
     "@pinata/sdk": "^2.1.0",
     "@reach/dialog": "^0.18.0",
     "@react-spring/web": "^9.7.1",
@@ -24,7 +24,7 @@
     "jsonata": "^2.0.2",
     "lib0": "^0.2.63",
     "lodash-es": "^4.17.21",
-    "monaco-editor": "^0.34.1",
+    "monaco-editor": "^0.37.1",
     "next": "^12.2.0",
     "next-pwa": "^5.4.1",
     "next-transpile-modules": "9.1.0",

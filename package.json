@@ -16,9 +16,9 @@
     }
   },
   "devDependencies": {
-    "turbo": "^1.6.3"
+    "turbo": "^1.8.8"
   },
   "dependencies": {
-    "dotenv-cli": "^7.0.0"
+    "dotenv-cli": "^7.2.1"
   }
 }
