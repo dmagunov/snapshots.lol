@@ -241,8 +241,9 @@ export default class MonacoBinding {
     };
 
     ytext.observe(this._ytextObserver);
-    monacoModel.setValue(ytext.toString());
-    monacoModel.setEOL(monaco.editor.EndOfLineSequence.CRLF);
+    monacoModel.applyEdits([
+      { text: ytext.toString(), range: monacoModel.getFullModelRange() },
+    ]);
 
     this._monacoChangeHandler = monacoModel.onDidChangeContent((event: any) => {
       // Apply changes from right to left
