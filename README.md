@@ -71,7 +71,7 @@ pnpm dev
   - [ ] Mobile first
   - [ ] Installable snapshots (PWA)
   - [ ] Pixel engine (support multiple engines)
-  - [ ] P2P collaboration without central server
+  - [x] ~~P2P collaboration without central server~~
   - [ ] Unlockable content
 
 - Themes:
