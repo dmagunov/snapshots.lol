@@ -1,12 +1,15 @@
 import type { Snapshot } from "types";
-import type { Theme } from "@thenftsnapshot/themes"
+import type { Theme } from "@thenftsnapshot/themes";
 
 import { useTheme } from "styled-components";
 import Image from "next/image";
 import { merge as _merge } from "lodash-es";
 import { useEffect, useState } from "react";
 
-import { SnapshotTitleFrame, SnapshotBoardFrame } from "@thenftsnapshot/themes/Default";
+import {
+  SnapshotTitleFrame,
+  SnapshotBoardFrame,
+} from "@thenftsnapshot/themes/Default";
 import { isUrl } from "lib/utils";
 import SnapshotTitle from "components/SnapshotTitle/SnapshotTitle";
 import GesturesWrapper from "components/GesturesWrapper/GesturesWrapper";
@@ -22,16 +25,22 @@ type SnapshotComponentProps = {
 
 export default function SnapshotComponent({
   snapshot,
-  updateTheme
+  updateTheme,
 }: SnapshotComponentProps) {
   const theme = useTheme();
   // NEXT: use proper type
-  const [LazySnapshotTitleFrame, setLazySnapshotTitleFrame] = useState<any>(() => SnapshotTitleFrame)
-  const [LazySnapshotBoardFrame, setLazySnapshotBoardFrame] = useState<any>(() => SnapshotBoardFrame)
+  const [LazySnapshotTitleFrame, setLazySnapshotTitleFrame] = useState<any>(
+    () => SnapshotTitleFrame
+  );
+  const [LazySnapshotBoardFrame, setLazySnapshotBoardFrame] = useState<any>(
+    () => SnapshotBoardFrame
+  );
 
   useEffect(() => {
     async function fetchTheme() {
-      const Module = await import(`@thenftsnapshot/themes/${snapshot.theme.name}/index`);
+      const Module = await import(
+        `@thenftsnapshot/themes/${snapshot.theme.name}/index`
+      );
       const theme = _merge({}, Module.theme, snapshot.theme.styles || {});
       updateTheme(theme);
       setLazySnapshotTitleFrame(() => Module.SnapshotTitleFrame);
@@ -62,7 +71,7 @@ export default function SnapshotComponent({
             quality={90}
           />
         )}
-      
+
       <GesturesWrapper scale={1} zIndex={2} top={"20px"}>
         <LazySnapshotTitleFrame>
           <SnapshotTitle title={snapshot.name} />
@@ -70,10 +79,7 @@ export default function SnapshotComponent({
       </GesturesWrapper>
 
       {/* NEXT: Introduce scale on themeStyles snapshot object */}
-      <GesturesWrapper
-        scale={theme.snapshot.scale}
-        zIndex={3}
-      >
+      <GesturesWrapper scale={theme.snapshot?.scale || 1} zIndex={3}>
         <LazySnapshotBoardFrame>
           <SnapshotBoard
             cols={snapshot.board.cols}
