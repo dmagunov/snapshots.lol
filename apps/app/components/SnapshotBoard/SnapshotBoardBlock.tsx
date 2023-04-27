@@ -1,7 +1,7 @@
 import type { SnapshotBlock } from "types";
 
 import { TwitterTweetEmbed } from "react-twitter-embed";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import YouTube from "react-youtube";
 
 import useProgressiveImage from "lib/useProgressiveImage";

@@ -7,7 +7,7 @@ import { merge as _merge } from "lodash-es";
 import { useIsClient, useMediaQuery } from "usehooks-ts";
 import { toast } from "react-toastify";
 import { useTheme } from "styled-components";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import { YConfig } from "lib/YConfig";
 import { base64ToBuffer } from "lib/utils";

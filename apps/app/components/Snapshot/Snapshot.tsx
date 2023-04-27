@@ -2,7 +2,7 @@ import type { Snapshot } from "types";
 import type { Theme } from "@thenftsnapshot/themes";
 
 import { useTheme } from "styled-components";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { merge as _merge } from "lodash-es";
 import { useEffect, useState } from "react";
 
