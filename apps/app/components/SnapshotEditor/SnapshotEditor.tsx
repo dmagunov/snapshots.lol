@@ -7,7 +7,7 @@ import { merge as _merge } from "lodash-es";
 import { useIsClient, useMediaQuery } from "usehooks-ts";
 import { toast } from "react-toastify";
 import { useTheme } from "styled-components";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 import { YConfig } from "lib/YConfig";
 import { base64ToBuffer } from "lib/utils";
@@ -174,14 +174,20 @@ export default function SnapshotEditorComponent({
                   width={60}
                   height={60}
                   alt="Toggle Editor"
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               ) : (
                 <Image
                   src={"/images/preview.png"}
                   width={70}
                   height={70}
                   alt="Toggle Preview"
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               )}
             </EditButton>
           </GesturesWrapper>

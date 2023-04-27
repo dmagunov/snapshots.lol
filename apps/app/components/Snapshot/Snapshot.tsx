@@ -2,7 +2,7 @@ import type { Snapshot } from "types";
 import type { Theme } from "@thenftsnapshot/themes";
 
 import { useTheme } from "styled-components";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { merge as _merge } from "lodash-es";
 import { useEffect, useState } from "react";
 
@@ -69,7 +69,10 @@ export default function SnapshotComponent({
             objectFit={theme.snapshot?.backgroundFit || "cover"}
             priority={true}
             quality={90}
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         )}
 
       <GesturesWrapper scale={1} zIndex={2} top={"20px"}>

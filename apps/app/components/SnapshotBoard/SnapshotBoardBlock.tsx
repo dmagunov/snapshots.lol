@@ -1,7 +1,7 @@
 import type { SnapshotBlock } from "types";
 
 import { TwitterTweetEmbed } from "react-twitter-embed";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import YouTube from "react-youtube";
 
 import useProgressiveImage from "lib/useProgressiveImage";
@@ -50,11 +50,13 @@ export default function SnapshotBoardBlockComponent({
         <Image
           alt={data.text}
           src={data.image}
-          layout="fill"
-          objectFit="cover"
           priority={true}
           quality={90}
-        />
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "cover"
+          }} />
       )}
 
       {data.tweetId && (
