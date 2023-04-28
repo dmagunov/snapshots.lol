@@ -176,8 +176,9 @@ export default function SnapshotEditorComponent({
                   alt="Toggle Editor"
                   style={{
                     maxWidth: "100%",
-                    height: "auto"
-                  }} />
+                    height: "auto",
+                  }}
+                />
               ) : (
                 <Image
                   src={"/images/preview.png"}
@@ -186,8 +187,9 @@ export default function SnapshotEditorComponent({
                   alt="Toggle Preview"
                   style={{
                     maxWidth: "100%",
-                    height: "auto"
-                  }} />
+                    height: "auto",
+                  }}
+                />
               )}
             </EditButton>
           </GesturesWrapper>
@@ -211,7 +213,7 @@ export default function SnapshotEditorComponent({
         </ToolBar>
 
         {isMint && (
-          <Dialog zIndex={4}>
+          <Dialog zIndex={14}>
             <MintSnapshot snapshot={snapshot} onClose={() => setMint(false)} />
           </Dialog>
         )}
@@ -219,7 +221,7 @@ export default function SnapshotEditorComponent({
         {/* TODO: move to component */}
         {isHelpShown && (
           <Dialog
-            zIndex={4}
+            zIndex={14}
             showCloseButton={true}
             onDismiss={() => setIsHelpShown(false)}
           >
