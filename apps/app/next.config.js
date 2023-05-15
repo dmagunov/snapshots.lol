@@ -30,5 +30,15 @@ module.exports = withPWA({
 
     return config;
   },
+  async redirects() {
+    // redirect to CRA app
+    return [
+      {
+        source: "/",
+        destination: "/start",
+        permanent: true,
+      },
+    ];
+  },
   pageExtensions: ["page.tsx", "page.ts"],
 });
