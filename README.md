@@ -2,19 +2,19 @@
 <div align="center">
   <img src="https://www.thenftsnapshot.com/static/media/board-animated-pixel.75802afa235dd9a1a2cf.gif" alt="Logo" width="80" height="80">
 
-  <h3 align="center">Snapshots.LOL</h3>
+  <h3 align="center">The NFT Snapshot</h3>
 
   <p align="center">
     Create a masterpiece together and own a piece forever!
   </p>
   <p align="center">
-  <a href="https://0.thenftsnapshot.com/">Demo Snapshot</a> · <a href="https://snapshots.lol">Website</a>
+  <a href="https://0.thenftsnapshot.com/">Demo Snapshot</a> · <a href="https://thenftsnapshot.com">Website</a>
   </p>
 </div>
 
 ## About The Project
 
-They say art is a solitary pursuit... but who wants to be alone when you can be surrounded by other people's ideas? That's the inspiration behind Snapshots.lol, a project that encourages collaboration and experimentation.
+They say art is a solitary pursuit... but who wants to be alone when you can be surrounded by other people's ideas? That's the inspiration behind The NFT Snapshot, a project that encourages collaboration and experimentation.
 
 ## Built With
 
@@ -65,7 +65,7 @@ pnpm dev
   - [ ] Upgradable Smart Contract
   - [ ] Deploy to Mainnet
 
-- Snapshots.LOL:
+- The NFT Snapshot:
 
   - [ ] Interactive UI for Snapshot Creation
   - [ ] Mobile first

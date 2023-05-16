@@ -1,6 +1,6 @@
-# Snapshots.lol
+# The NFT Snapshot
 
-The Snapshots.lol main app, built with Next.js.
+Main app, built with Next.js.
 
 ### Libraries used
 

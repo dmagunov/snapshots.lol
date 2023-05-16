@@ -109,14 +109,14 @@ export default function SnapshotEditorComponent({
       <Banner>
         {isMobile ? (
           <p>
-            Welcome to Snapshots.lol demo!{" "}
+            Welcome to The NFT Snapshot demo!{" "}
             <a href="https://github.com/dmagunov/snapshots.lol">Github</a>
           </p>
         ) : (
           <p>
-            Welcome to Snapshots.lol demo! If you&apos;re expecting everything
-            to work perfectly, you might be in the wrong place. Want to dive in
-            anyway, head to our&nbsp;
+            Welcome to The NFT Snapshot demo! If you&apos;re expecting
+            everything to work perfectly, you might be in the wrong place. Want
+            to dive in anyway, head to our&nbsp;
             <a href="https://github.com/dmagunov/snapshots.lol">Github</a>
           </p>
         )}
@@ -230,7 +230,7 @@ export default function SnapshotEditorComponent({
             </p>
             <p>
               Why limit yourself to one medium when you can have them all? With
-              Snapshots.LOL, we&apos;re bringing together blurry photos, memes,
+              NFT Snapshot, we&apos;re bringing together blurry photos, memes,
               and anything else we can get our hands on. The result is a
               chaotic, incoherent mess of a painting, but that&apos;s the beauty
               of it. So what are you waiting for? Get out there and start
@@ -242,7 +242,7 @@ export default function SnapshotEditorComponent({
             <p>
               ⛏️{" "}
               <a
-                href="https://snapshots.lol"
+                href="https://thenftsnapshot.com"
                 target="_blank"
                 rel="noreferrer"
                 title="Visit the main page for more info"
